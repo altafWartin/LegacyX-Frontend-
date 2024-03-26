@@ -44,12 +44,13 @@ const Login = () => {
 
       console.log("Token:", accessToken); // Log the token
       navigate("/");
+      navigate("/");
     } catch (error) {
       console.error("Error logging in:", error.message);
     }
   };
   return (
-    <div>
+
       <div class="w-full relative px-[450px] pt-[50px] pb-[50px] h-[100vh] text-left text-[1.125rem] text-white font-gilroy bg-gray-400 shadow-[0px_4px_74px_rgba(0,_0,_0,_0.25)] overflow-hidden flex flex-row items-start justify-start pt-[0rem] px-[0rem] pb-[5.75rem] box-border gap-[18.31rem] tracking-[normal] mq700:gap-[18.31rem] mq950:flex-wrap mq975:gap-[18.31rem]">
         <form
           onSubmit={handleSubmit}
@@ -147,7 +148,7 @@ const Login = () => {
             </Link>
           </div> */}
         </form>
-      </div>
+
     </div>
   );
 };

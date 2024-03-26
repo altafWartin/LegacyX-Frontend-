@@ -28,7 +28,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div class="w-[17.875rem] rounded-xl bg-gray-200 flex flex-col items-center justify-start pt-[1.75rem] px-[1.188rem] pb-[29rem] box-border gap-[1.625rem_0rem] mq900:hidden mq900:pt-[1.25rem] mq900:pb-[18.875rem] mq900:box-border mq450:pb-[12.25rem] mq450:box-border">
+    <div class="w-[17.875rem] rounded-xl bg-gray-200 fixed mt-[8rem] flex flex-col items-center justify-start pt-[1.75rem] px-[1.188rem] pb-[29rem] box-border gap-[1.625rem_0rem] mq900:hidden mq900:pt-[1.25rem] mq900:pb-[18.875rem] mq900:box-border mq450:pb-[12.25rem] mq450:box-border">
       <Link
         to="/"
         onClick={() => handleLinkClick("/")}
@@ -150,9 +150,9 @@ const Sidebar = () => {
                 <div class="relative leading-[1.125rem] z-[1]">Settings</div>
               </Link>
               <Link
-                to="/settings"
+                to="/security"
                 className={`self-stretch rounded-3xs no-underline flex flex-row items-center py-3  justify-start gap-[0rem_1.188rem] whitespace-nowrap z-[1] ${
-                  isLinkActive("/settings")
+                  isLinkActive("/security")
                   ? "bg-white text-black active  pl-5"
 
                     : "text-white"

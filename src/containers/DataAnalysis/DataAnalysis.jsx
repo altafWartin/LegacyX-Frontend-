@@ -9,7 +9,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 
 const DataAnalysis = () => {
   return (
-    <section class="flex-1 rounded-xl bg-gray-200 flex flex-row flex-wrap items-start justify-start p-[2rem] box-border gap-[0rem_1.5rem] min-h-[55.313rem] max-w-[calc(100%_-_300px)] text-left text-[1.625rem] text-white font-gilroy mq900:max-w-full mq450:pt-[1.313rem] mq450:pb-[1.313rem] mq450:box-border">
+    <section class="flex-1 ml-[19rem] mt-[8rem] rounded-xl bg-gray-200 flex flex-row flex-wrap items-start justify-start p-[2rem] box-border gap-[0rem_1.5rem] min-h-[55.313rem] max-w-[calc(100%_-_300px)] text-left text-[1.625rem] text-white font-gilroy mq900:max-w-full mq450:pt-[1.313rem] mq450:pb-[1.313rem] mq450:box-border">
       <div class="h-[55.188rem] w-[67.5rem] relative rounded-xl bg-gray-200 hidden max-w-full"></div>
       <div class="flex-1 rounded-[18.28px] bg-gray-300 shadow-[0px_0px_13.71px_rgba(0,_0,_0,_0.15)] flex flex-col items-start justify-start pt-[1.5rem] pb-[1.188rem] pr-[0.813rem] pl-[1rem] box-border relative gap-[2.688rem_0rem] min-w-[20.188rem] max-w-full z-[1] mq675:gap-[2.688rem_0rem]">
         <div class="w-[31rem] h-[20.688rem] relative rounded-[18.28px] bg-gray-300 shadow-[0px_0px_13.71px_rgba(0,_0,_0,_0.15)] hidden max-w-full z-[0]"></div>

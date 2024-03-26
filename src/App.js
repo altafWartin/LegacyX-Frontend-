@@ -8,6 +8,8 @@ import {
 import "./App.css";
 import AuthorizedCom from "./containers/AuthorizedCom";
 import UnAuthorizedCom from "./containers/UnAuthorizedCom";
+import Login from "./containers/Login/Login";
+import DataAnalysis from "./containers/DataAnalysis/DataAnalysis";
 
 function PrivateRoute({ element, ...rest }) {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -21,10 +23,15 @@ function PrivateRoute({ element, ...rest }) {
 
 function App() {
   return (
-    <div className="w-full">
-     <UnAuthorizedCom />
-        <AuthorizedCom />
-
+    <div className="w-full bg-black">
+      {/* <Routes>
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<DataAnalysis />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
+      </Routes> */}
+      {/* <UnAuthorizedCom /> */}
+      <AuthorizedCom />
     </div>
   );
 }

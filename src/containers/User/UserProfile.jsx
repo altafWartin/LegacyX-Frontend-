@@ -62,7 +62,7 @@ const UserProfile = () => {
   }, []);
 
   return (
-    <div className="w-full h-[1200px]">
+    <div className="w-full h-[1200px]  ml-[19rem] mt-[8rem]">
       <section class="flex-1 h-[900px] rounded-xl w-full bg-gray-200 flex flex-col items-start justify-start pt-[2.125rem] pb-[3.625rem] pr-[2.063rem] pl-[2.125rem] box-border gap-[2.063rem_0rem]  text-left text-[1.125rem] text-white font-gilroy mq675:gap-[1rem_0rem] mq900:pt-[1.375rem] mq900:pb-[2.375rem] mq900:box-border mq900:max-w-full mq450:pt-[1.25rem] mq450:pb-[1.563rem] mq450:box-border">
         {/* <img
           class="w-[11.438rem] h-[11.438rem] relative rounded-[22px] object-cover z-[1]"

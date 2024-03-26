@@ -27,7 +27,9 @@ const Navbar = () => {
   };
 
   return (
-    <header class="self-stretch w-full flex flex-row items-start justify-start py-[0rem] pr-[0.688rem] pl-[0rem] box-border max-w-full shrink-0">
+
+
+    <header class="self-stretch bg-black  w-screen mr-3 pr-10 pl-6 fixed z-[10] left-3  py-3 flex flex-row items-start justify-start  box-border  shrink-0">
       <div class="flex-1 rounded-xl bg-gray-200 flex flex-row items-center justify-between py-[0.688rem] pr-[0.688rem] pl-[1.375rem] box-border max-w-full gap-[1.25rem]">
         <div class="h-[4.625rem] w-[85.625rem] relative rounded-xl bg-gray-200 hidden max-w-full"></div>
         <img
@@ -79,7 +81,8 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </header>
+    </header>    
+
   );
 };
 
