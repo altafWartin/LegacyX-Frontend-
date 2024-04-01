@@ -34,12 +34,12 @@ const UserProfile = () => {
         }
 
         const response = await fetch(
-          `http://localhost:4400/api/entity/user/${userId}`,
+          `https://devv.legacyx.uk/api/entity/user/${userId}`,
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              access_token: accessToken,
+              authorization: accessToken,
             },
           }
         );

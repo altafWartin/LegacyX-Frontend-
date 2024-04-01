@@ -19,10 +19,10 @@ const User = () => {
         }
 
         const response = await fetch(
-          "http://localhost:4400/api/auth/allProfile",
+          "https://devv.legacyx.uk/api/auth/allProfile",
           {
             headers: {
-              access_token: `${accessToken}`,
+              authorization: `${accessToken}`,
             },
           }
         );
@@ -34,6 +34,7 @@ const User = () => {
         const data = await response.json();
         setProfiles(data);
         console.log(data);
+        console.log(data.length); // Log the length of the array
       } catch (error) {
         console.error("Error fetching user profiles:", error);
       }
@@ -46,10 +47,10 @@ const User = () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await fetch(
-        `http://localhost:4400/api/auth/singleProfile/${userId}`,
+        `https://devv.legacyx.uk/api/auth/singleProfile/${userId}`,
         {
           headers: {
-            access_token: accessToken,
+            authorization: accessToken,
           },
         }
       );
@@ -74,22 +75,33 @@ const User = () => {
         <h1 class="m-0 h-[2rem] relative text-inherit leading-[2.375rem] capitalize font-semibold font-inherit inline-block z-[1] mq900:text-[1.875rem] mq900:leading-[1.875rem] mq450:text-[1.438rem] mq450:leading-[1.438rem]">
           users
         </h1>
-        <div class="rounded-3xs flex flex-row items-center justify-start py-[1.063rem] pr-[1.188rem] pl-[1.063rem] gap-[1.125rem] z-[1] text-[1.125rem] border-[0.6px] border-solid border-white">
-          <div class="h-[2.875rem] w-[12.438rem] relative rounded-3xs box-border hidden border-[0.6px] border-solid border-white"></div>
-          <div class="flex flex-row items-start justify-start gap-[0rem_0.813rem]">
-            <div class="relative leading-[0.75rem] capitalize z-[1]">
-              sort by :
-            </div>
-            <div class="relative leading-[0.75rem] capitalize z-[1]">
-              recent
+        <div className="d-flex gap-4">
+          <div class="rounded-3xs flex flex-row items-center justify-start py-[1.063rem] pr-[1.188rem] pl-[1.063rem] gap-[1.125rem] z-[1] text-[1.125rem] border-[0.6px] border-solid border-white">
+            <div class="flex flex-row items-start justify-start gap-[0rem_0.813rem]">
+              <div class="relative leading-[0.75rem] capitalize z-[1]">
+                Users :
+              </div>
+              <div class="relative leading-[0.75rem] capitalize z-[1]">
+                {profiles.length}
+              </div>
             </div>
           </div>
-          <img
-            class="h-[0.25rem] w-[0.5rem] color-white relative z-[1]"
-            loading="lazy"
-            alt=""
-            src={vector12}
-          />
+          <div class="rounded-3xs flex flex-row items-center justify-start py-[1.063rem] pr-[1.188rem] pl-[1.063rem] gap-[1.125rem] z-[1] text-[1.125rem] border-[0.6px] border-solid border-white">
+            <div class="flex flex-row items-start justify-start gap-[0rem_0.813rem]">
+              <div class="relative leading-[0.75rem] capitalize z-[1]">
+                sort by :
+              </div>
+              <div class="relative leading-[0.75rem] capitalize z-[1]">
+                recent
+              </div>
+            </div>
+            <img
+              class="h-[0.25rem] w-[0.5rem] color-white relative z-[1]"
+              loading="lazy"
+              alt=""
+              src={vector12}
+            />
+          </div>{" "}
         </div>
       </div>
       <div className="h-[500px] overflow-y-auto ">
@@ -101,7 +113,6 @@ const User = () => {
           >
             <div className="h-[5rem] w-[63.25rem] relative rounded-sm bg-gray-100 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.1)] hidden max-w-full"></div>
             <div className="flex flex-row items-center justify-start gap-[0rem_1.813rem]">
-
               <Stack direction="row" spacing={2}>
                 <Avatar
                   alt={profile.username}

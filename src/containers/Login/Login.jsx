@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:4400/api/auth/loginAdmin`, {
+      const response = await fetch(`https://devv.legacyx.uk/api/auth/loginAdmin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,18 +31,22 @@ const Login = () => {
       }
 
       const data = await response.json();
-      const { accessToken, user } = data;
+      console.log(JSON.stringify(data));
+
+      const { token, user } = data;
+
 
       // Store the access token in local storage
-      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('accessToken', token);
   
       // Store the user details in local storage
       localStorage.setItem('user', JSON.stringify(user));
 
       // Set the token in state
-      setToken(accessToken);
+      setToken(user.token);
+      console.log(token);
 
-      console.log("Token:", accessToken); // Log the token
+      console.log("Token:", token); // Log the token
       navigate("/");
       navigate("/");
     } catch (error) {

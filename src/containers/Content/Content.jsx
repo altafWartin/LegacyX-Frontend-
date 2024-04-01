@@ -23,10 +23,14 @@ const Content = () => {
     // Define a function to fetch media feed
     async function fetchMediaFeed() {
       try {
-        const token = "your_token_here"; // Replace 'your_token_here' with the actual token
-        const response = await fetch("http://localhost:4400/api/entity/feed", {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+          throw new Error("Access token not found in local storage");
+        }
+        const response = await fetch("https://devv.legacyx.uk/api/entity/feed", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            authorization: accessToken,
           },
         });
         if (!response.ok) {
@@ -47,7 +51,7 @@ const Content = () => {
 
   if (loading) {
     return (
-      <div class="  px-[450px] pt-[50px] pb-[50px] h-[100vh] text-left text-[1.125rem] text-white font-gilroy bg-gray-400 shadow-[0px_4px_74px_rgba(0,_0,_0,_0.25)] overflow-hidden flex flex-row items-start justify-start pt-[0rem] px-[0rem] pb-[5.75rem] box-border gap-[18.31rem] tracking-[normal] mq700:gap-[18.31rem] mq950:flex-wrap mq975:gap-[18.31rem]">
+      <div class="  px-[450px] bg-black pt-[50px] pb-[50px] h-[100vh] text-left text-[1.125rem] text-white font-gilroy bg-gray-400 shadow-[0px_4px_74px_rgba(0,_0,_0,_0.25)] overflow-hidden flex flex-row items-start justify-start pt-[0rem] px-[0rem] pb-[5.75rem] box-border gap-[18.31rem] tracking-[normal] mq700:gap-[18.31rem] mq950:flex-wrap mq975:gap-[18.31rem]">
         Loading...
       </div>
     );

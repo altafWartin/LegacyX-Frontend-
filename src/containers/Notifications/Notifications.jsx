@@ -29,7 +29,7 @@ const Notifications = () => {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4400/api/auth/allProfile"
+          "https://devv.legacyx.uk/api/auth/allProfile"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch users");
@@ -76,7 +76,7 @@ const Notifications = () => {
     notificationText: notificationText,
   });
     // Perform API call here
-    fetch("http://localhost:4400/api/auth/send-notification", {
+    fetch("https://devv.legacyx.uk/api/auth/send-notification", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
