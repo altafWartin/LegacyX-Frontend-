@@ -24,10 +24,9 @@ const Content = () => {
   const handleClick = (event, contentId) => {
     setAnchorEl(event.currentTarget);
     setSelectedContentId(contentId); // Store the content ID of the clicked item
-    console.log("contentID",contentId)
-    console.log("selectd",selectedContentId);
+    console.log("contentID", contentId);
+    console.log("selectd", selectedContentId);
   };
-
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -167,11 +166,11 @@ const Content = () => {
                     >
                       <div class="self-stretch rounded-3xs flex flex-col items-start justify-start p-[0.5rem] gap-[7.25rem_0rem] bg-cover bg-no-repeat bg-[top] z-[2] relative">
                         <img
-                          class="w-[16.5rem] h-[12.375rem] relative rounded-3xs object-cover alt-pt-5 z-[0]"
-                          // src={item.imageUrl}
-                          src={item.url}
+                            className="h-[12.375rem] w-full object-cover rounded-3xs"
+                            src={item.url}
                           alt={item.caption}
                         />
+
                         <div class="form-check absolute top-0 left-0 ml-[1rem] mt-[0.6rem]">
                           <input
                             class="form-check-input w-[1.875rem] h-[1.875rem]"
@@ -181,7 +180,10 @@ const Content = () => {
                           />
                         </div>
 
-                        <button onClick={handleDeleteMedia(item.id)} class="cursor-pointer [border:none] pt-[0.688rem] m-[1rem]  pb-[0.75rem] pr-[1.125rem] pl-[1.188rem] bg-gray-700 rounded-md [backdrop-filter:blur(20px)] flex flex-row items-center justify-center z-[3] hover:bg-gainsboro-200 absolute bottom-0 left-0 m-[0.5rem]">
+                        <button
+                          onClick={handleDeleteMedia(item.id)}
+                          class="cursor-pointer [border:none] pt-[0.688rem] m-[1rem]  pb-[0.75rem] pr-[1.125rem] pl-[1.188rem] bg-gray-700 rounded-md [backdrop-filter:blur(20px)] flex flex-row items-center justify-center z-[3] hover:bg-gainsboro-200 absolute bottom-0 left-0 m-[0.5rem]"
+                        >
                           <div class="relative text-[1rem]  leading-[1rem] capitalize font-gilroy text-white text-center z-[4]">
                             {item.entityType}{" "}
                           </div>
@@ -191,7 +193,6 @@ const Content = () => {
                         <div class="flex-1 flex  flex-row items-end justify-between gap-[1.25rem]">
                           <h3 class="m-0 relative text-inherit pl-2 leading-[1.125rem] capitalize font-medium font-inherit z-[2] mq450:text-[1.125rem] mq450:leading-[1.125rem]">
                             {item.tags}
-
                           </h3>
                           <div class="flex flex-col items-start justify-start pt-[0rem] px-[0rem] pb-[0.25rem]">
                             <div className="relative">
@@ -200,7 +201,7 @@ const Content = () => {
                                 aria-controls="dropdown-menu"
                                 aria-haspopup="true"
                                 onClick={(event) => handleClick(event, item.id)} // Pass content ID to handleClick function
-                                >
+                              >
                                 <img
                                   className="w-[1.438rem] h-[0.313rem] relative z-[2]"
                                   loading="lazy"
@@ -248,7 +249,6 @@ const Content = () => {
                                 <MenuItem
                                   className="hover:bg-gray-600"
                                   onClick={handleDeleteMedia} // Call handleDeleteMedia when delete option is clicked
-
                                 >
                                   <div className="flex flex-row items-start justify-start p-[0rem] pr-[1.125rem] pl-[0.688rem] text-left">
                                     <div className="flex flex-row items-center justify-start gap-[0rem_0.563rem]">
