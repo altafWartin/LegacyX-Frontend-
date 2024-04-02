@@ -165,11 +165,22 @@ const Content = () => {
                       class="self-stretch rounded-sm bg-gray-100 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.1)] flex flex-col items-center justify-start pt-[0.625rem] px-[0.563rem] pb-[1.313rem] box-border gap-[1.125rem_0rem] max-w-full z-[1] text-[1.375rem]"
                     >
                       <div class="self-stretch rounded-3xs flex flex-col items-start justify-start p-[0.5rem] gap-[7.25rem_0rem] bg-cover bg-no-repeat bg-[top] z-[2] relative">
-                        <img
-                            className="h-[12.375rem] w-full object-cover rounded-3xs"
-                            src={item.url}
-                          alt={item.caption}
-                        />
+                      {item.entityType === 'videos' ? (
+                            <video
+                                className="h-[12.375rem] w-full object-cover rounded-3xs"
+                                loop // Add loop attribute to play video in a loop
+                                autoPlay // Add autoPlay attribute to enable autoplay
+                                muted // Mute the video to enable autoplay without sound
+                                src={item.url} // Assuming you have a video URL in your 'media' object
+                                alt={item.caption}
+                            />
+                        ) : (
+                            <img
+                                className="h-[12.375rem] w-full object-cover rounded-3xs"
+                                src={item.url}
+                                alt={item.caption}
+                            />
+                        )}
 
                         <div class="form-check absolute top-0 left-0 ml-[1rem] mt-[0.6rem]">
                           <input
@@ -181,7 +192,6 @@ const Content = () => {
                         </div>
 
                         <button
-                          onClick={handleDeleteMedia(item.id)}
                           class="cursor-pointer [border:none] pt-[0.688rem] m-[1rem]  pb-[0.75rem] pr-[1.125rem] pl-[1.188rem] bg-gray-700 rounded-md [backdrop-filter:blur(20px)] flex flex-row items-center justify-center z-[3] hover:bg-gainsboro-200 absolute bottom-0 left-0 m-[0.5rem]"
                         >
                           <div class="relative text-[1rem]  leading-[1rem] capitalize font-gilroy text-white text-center z-[4]">
