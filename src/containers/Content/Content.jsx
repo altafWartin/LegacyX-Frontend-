@@ -191,9 +191,7 @@ const Content = () => {
                         <div class="flex-1 flex  flex-row items-end justify-between gap-[1.25rem]">
                           <h3 class="m-0 relative text-inherit pl-2 leading-[1.125rem] capitalize font-medium font-inherit z-[2] mq450:text-[1.125rem] mq450:leading-[1.125rem]">
                             {item.tags}
-                            <b />
-                            <hr />
-                            {item.id}
+
                           </h3>
                           <div class="flex flex-col items-start justify-start pt-[0rem] px-[0rem] pb-[0.25rem]">
                             <div className="relative">

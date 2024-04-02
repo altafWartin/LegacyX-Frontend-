@@ -127,7 +127,7 @@ const UserProfile = () => {
                 </div>{" "}
               </div>
             </div>
-            <div className="">
+            <div className="w-[850px]">
               <div className="mt-10  ">
                 <h3 class="m-0 h-[1.375rem] mb-4 relative text-[1.625rem] leading-[1.625rem] capitalize font-semibold font-inherit inline-block shrink-0 z-[1] mq450:text-[1.313rem] mq450:leading-[1.313rem]">
                   content uploaded
