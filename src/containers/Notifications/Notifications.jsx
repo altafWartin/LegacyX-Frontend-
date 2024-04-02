@@ -174,9 +174,9 @@ const Notifications = () => {
             </select>
           </div>
         </div>
-        <div class="flex-1 flex flex-col items-start justify-start gap-[1.5rem_0rem] min-w-[20.063rem] max-w-full">
-          <div class="self-stretch flex flex-col items-start justify-start gap-[0.875rem_0rem]">
-            <div class="h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center shrink-0 z-[1]">
+        <div class="w-full flex-1 flex flex-col items-start justify-start gap-[1.5rem_0rem] min-w-[20.063rem] max-w-full">
+          <div class="w-full self-stretch flex flex-col items-start justify-start gap-[0.875rem_0rem]">
+            <div class=" w-full h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center shrink-0 z-[1]">
               Select User's
             </div>
             {/* <input
@@ -198,7 +198,7 @@ const Notifications = () => {
                 }),
                 control: (provided) => ({
                   ...provided,
-                  width: "470px",
+                  width: "400px",
                   border: "none",
                   outline: "none",
                   backgroundColor: "white",
