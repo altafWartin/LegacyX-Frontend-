@@ -17,7 +17,21 @@ const Content = () => {
   const [media, setMedia] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const [selectedContentId, setSelectedContentId] = useState(null); // State variable to hold selected content ID
+
+  const handleClick = (event, contentId) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedContentId(contentId); // Store the content ID of the clicked item
+    console.log("contentID",contentId)
+    console.log("selectd",selectedContentId);
+  };
+
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     // Define a function to fetch media feed
@@ -27,12 +41,15 @@ const Content = () => {
         if (!accessToken) {
           throw new Error("Access token not found in local storage");
         }
-        const response = await fetch("https://devv.legacyx.uk/api/entity/feed", {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: accessToken,
-          },
-        });
+        const response = await fetch(
+          "https://devv.legacyx.uk/api/entity/feed",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: accessToken,
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch media feed");
         }
@@ -49,6 +66,33 @@ const Content = () => {
     fetchMediaFeed();
   }, []); // Empty dependency array ensures the effect runs only once
 
+  const handleDeleteMedia = async (mediaId) => {
+    console.log(mediaId);
+    try {
+      const response = await fetch(
+        `htt://localhost:4400/api/entity/delete/${mediaId}`,
+        {
+          method: "GET",
+        }
+      );
+
+      console.log(mediaId);
+      if (response.ok) {
+        // If deletion is successful, remove the media item from the state or re-fetch the media list
+        const data = await response.json();
+        console.log(data.message); // Log success message
+
+        // console.log("Media deleted successfully");
+      } else {
+        console.error("Failed to delete media");
+      }
+    } catch (error) {
+      console.error("An error occurred while deleting media:", error);
+    }
+  };
+
+  // Inside your rendering logic
+
   if (loading) {
     return (
       <div class="  px-[450px] bg-black pt-[50px] pb-[50px] h-[100vh] text-left text-[1.125rem] text-white font-gilroy bg-gray-400 shadow-[0px_4px_74px_rgba(0,_0,_0,_0.25)] overflow-hidden flex flex-row items-start justify-start pt-[0rem] px-[0rem] pb-[5.75rem] box-border gap-[18.31rem] tracking-[normal] mq700:gap-[18.31rem] mq950:flex-wrap mq975:gap-[18.31rem]">
@@ -63,14 +107,6 @@ const Content = () => {
       Error: {error}
     </div>;
   }
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -126,7 +162,7 @@ const Content = () => {
                 <div className="grid grid-cols-3 gap-4">
                   {media.map((item, index) => (
                     <div
-                      key={index}
+                      key={item.id}
                       class="self-stretch rounded-sm bg-gray-100 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.1)] flex flex-col items-center justify-start pt-[0.625rem] px-[0.563rem] pb-[1.313rem] box-border gap-[1.125rem_0rem] max-w-full z-[1] text-[1.375rem]"
                     >
                       <div class="self-stretch rounded-3xs flex flex-col items-start justify-start p-[0.5rem] gap-[7.25rem_0rem] bg-cover bg-no-repeat bg-[top] z-[2] relative">
@@ -136,7 +172,6 @@ const Content = () => {
                           src={item.url}
                           alt={item.caption}
                         />
-
                         <div class="form-check absolute top-0 left-0 ml-[1rem] mt-[0.6rem]">
                           <input
                             class="form-check-input w-[1.875rem] h-[1.875rem]"
@@ -146,9 +181,9 @@ const Content = () => {
                           />
                         </div>
 
-                        <button class="cursor-pointer [border:none] pt-[0.688rem] m-[1rem]  pb-[0.75rem] pr-[1.125rem] pl-[1.188rem] bg-gray-700 rounded-md [backdrop-filter:blur(20px)] flex flex-row items-center justify-center z-[3] hover:bg-gainsboro-200 absolute bottom-0 left-0 m-[0.5rem]">
+                        <button onClick={handleDeleteMedia(item.id)} class="cursor-pointer [border:none] pt-[0.688rem] m-[1rem]  pb-[0.75rem] pr-[1.125rem] pl-[1.188rem] bg-gray-700 rounded-md [backdrop-filter:blur(20px)] flex flex-row items-center justify-center z-[3] hover:bg-gainsboro-200 absolute bottom-0 left-0 m-[0.5rem]">
                           <div class="relative text-[1rem]  leading-[1rem] capitalize font-gilroy text-white text-center z-[4]">
-                            {item.entityType}
+                            {item.entityType}{" "}
                           </div>
                         </button>
                       </div>
@@ -156,6 +191,9 @@ const Content = () => {
                         <div class="flex-1 flex  flex-row items-end justify-between gap-[1.25rem]">
                           <h3 class="m-0 relative text-inherit pl-2 leading-[1.125rem] capitalize font-medium font-inherit z-[2] mq450:text-[1.125rem] mq450:leading-[1.125rem]">
                             {item.tags}
+                            <b />
+                            <hr />
+                            {item.id}
                           </h3>
                           <div class="flex flex-col items-start justify-start pt-[0rem] px-[0rem] pb-[0.25rem]">
                             <div className="relative">
@@ -163,8 +201,8 @@ const Content = () => {
                                 aria-label="more"
                                 aria-controls="dropdown-menu"
                                 aria-haspopup="true"
-                                onClick={handleClick}
-                              >
+                                onClick={(event) => handleClick(event, item.id)} // Pass content ID to handleClick function
+                                >
                                 <img
                                   className="w-[1.438rem] h-[0.313rem] relative z-[2]"
                                   loading="lazy"
@@ -211,7 +249,8 @@ const Content = () => {
 
                                 <MenuItem
                                   className="hover:bg-gray-600"
-                                  onClick={handleClose}
+                                  onClick={handleDeleteMedia} // Call handleDeleteMedia when delete option is clicked
+
                                 >
                                   <div className="flex flex-row items-start justify-start p-[0rem] pr-[1.125rem] pl-[0.688rem] text-left">
                                     <div className="flex flex-row items-center justify-start gap-[0rem_0.563rem]">
@@ -241,115 +280,6 @@ const Content = () => {
                   ))}
                 </div>
               </div>
-              {/* <div class="self-stretch rounded-sm bg-gray-100 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.1)] flex flex-col items-center justify-start pt-[0.625rem] px-[0.563rem] pb-[1.313rem] box-border gap-[1.125rem_0rem] max-w-full z-[1] text-[1.375rem]">
-                <div class="self-stretch rounded-3xs flex flex-col items-start justify-start p-[0.5rem] gap-[7.25rem_0rem] bg-cover bg-no-repeat bg-[top] z-[2] relative">
-                  <img
-                    class="w-[18.0rem] h-[12.375rem] relative rounded-3xs object-cover z-[0]"
-                    alt=""
-                    src={rectangle}
-                  />
-
-                  <div class="form-check absolute top-0 left-0 ml-[1rem] mt-[0.6rem]">
-                    <input
-                      class="form-check-input w-[1.875rem] h-[1.875rem]"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckChecked"
-                    />
-                  </div>
-
-                  <button class="cursor-pointer [border:none] pt-[0.688rem] m-[1rem]  pb-[0.75rem] pr-[1.125rem] pl-[1.188rem] bg-gray-700 rounded-md [backdrop-filter:blur(20px)] flex flex-row items-center justify-center z-[3] hover:bg-gainsboro-200 absolute bottom-0 left-0 m-[0.5rem]">
-                    <div class="relative text-[1rem] leading-[1rem] capitalize font-gilroy text-white text-center z-[4]">
-                      GIFff
-                    </div>
-                  </button>
-                </div>
-                <div class="self-stretch flex flex-row items-start justify-start py-[0rem] pr-[0.313rem] pl-[0rem]">
-                  <div class="flex-1 flex flex-row items-end justify-between gap-[1.25rem]">
-                    <h3 class="m-0 relative text-inherit leading-[1.125rem] capitalize font-medium font-inherit z-[2] mq450:text-[1.125rem] mq450:leading-[1.125rem]">
-                      Lorem ipsum dolor
-                    </h3>
-                    <div class="flex flex-col items-start justify-start pt-[0rem] px-[0rem] pb-[0.25rem]">
-                      <div className="relative">
-                        <IconButton
-                          aria-label="more"
-                          aria-controls="dropdown-menu"
-                          aria-haspopup="true"
-                          onClick={handleClick}
-                        >
-                          <img
-                            className="w-[1.438rem] h-[0.313rem] relative z-[2]"
-                            loading="lazy"
-                            alt=""
-                            src={group9}
-                          />
-                        </IconButton>
-                        <Menu
-                          id="dropdown-menu"
-                          anchorEl={anchorEl}
-                          open={Boolean(anchorEl)}
-                          onClose={handleClose}
-                          getContentAnchorEl={null}
-                          PaperProps={{
-                            style: {
-                              backgroundColor: "gray",
-                              color: "#ffffff", // Text color set to white
-                              position: "absolute",
-                              left: "0",
-                              // height:"8rem",
-                              marginTop: "0rem",
-                              marginLeft: "-6rem",
-                            },
-                          }}
-                        >
-                          <MenuItem
-                            className="hover:bg-gray-600"
-                            onClick={handleClose}
-                          >
-                            <div className="flex flex-row items-start justify-start p-[0rem] pr-[1.625rem] pl-[0.688rem]">
-                              <div className="flex flex-row items-start justify-start gap-[0rem_0.5rem]">
-                                <img
-                                  className="h-[0.75rem] w-[0.875rem] relative min-h-[0.75rem] z-[4]"
-                                  loading="lazy"
-                                  alt=""
-                                  src={EditHide}
-                                />
-                                <div className="relative leading-[0.75rem] capitalize z-[4]">
-                                  hide
-                                </div>
-                              </div>
-                            </div>
-                          </MenuItem>
-
-                          <MenuItem
-                            className="hover:bg-gray-600"
-                            onClick={handleClose}
-                          >
-                            <div className="flex flex-row items-start justify-start p-[0rem] pr-[1.125rem] pl-[0.688rem] text-left">
-                              <div className="flex flex-row items-center justify-start gap-[0rem_0.563rem]">
-                                <img
-                                  className="h-[0.938rem] w-[0.813rem] relative z-[4]"
-                                  loading="lazy"
-                                  alt=""
-                                  src={group5}
-                                />
-                                <div className="relative leading-[0.75rem] capitalize z-[4]">
-                                  delete
-                                </div>
-                              </div>
-                            </div>
-                          </MenuItem>
-                        </Menu>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="self-stretch h-[2.375rem] flex flex-row items-start justify-start text-[1rem]">
-                  <div class="self-stretch w-[16.313rem] relative leading-[1.375rem] capitalize inline-block shrink-0 z-[2]">
-                    venenatis sagittis nisl ipsum id velit vitae euismod
-                  </div>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>

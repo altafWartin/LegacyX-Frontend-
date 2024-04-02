@@ -70,8 +70,8 @@ const User = () => {
   };
 
   return (
-    <div class="flex-1 rounded-xl  ml-[19rem] mt-[8rem] text-white bg-gray-200  flex flex-col items-center justify-start pt-[2.375rem] px-[2.125rem] pb-[5.125rem] box-border gap-[1.375rem_0rem] max-w-[calc(100%_-_300px)] mq900:pt-[1.563rem] mq900:pb-[3.313rem] mq900:box-border mq900:max-w-full mq450:pt-[1.25rem] mq450:pb-[2.125rem] mq450:box-border">
-      <div class="w-[61.25rem] flex flex-row items-center justify-between pt-[0rem] px-[0rem] pb-[0.188rem] box-border gap-[1.25rem] text-[2.375rem]">
+    <div class="flex-1 h-[100vh] rounded-xl  ml-[19rem] mt-[8rem] text-white bg-gray-200  flex flex-col items-center justify-start pt-[2.375rem] px-[2.125rem] pb-[5.125rem] box-border gap-[1.375rem_0rem] max-w-[calc(100%_-_300px)] mq900:pt-[1.563rem] mq900:pb-[3.313rem] mq900:box-border mq900:max-w-full mq450:pt-[1.25rem] mq450:pb-[2.125rem] mq450:box-border">
+      <div class="w-full flex flex-row items-center justify-between pt-[0rem] px-[0rem] pb-[0.188rem] box-border gap-[1.25rem] text-[2.375rem]">
         <h1 class="m-0 h-[2rem] relative text-inherit leading-[2.375rem] capitalize font-semibold font-inherit inline-block z-[1] mq900:text-[1.875rem] mq900:leading-[1.875rem] mq450:text-[1.438rem] mq450:leading-[1.438rem]">
           users
         </h1>
@@ -104,12 +104,12 @@ const User = () => {
           </div>{" "}
         </div>
       </div>
-      <div className="h-[500px] overflow-y-auto ">
+      <div className="h-[500px] w-full overflow-y-auto ">
         {profiles.map((profile) => (
           <div
             key={profile._id}
             onClick={() => fetchSingleProfile(profile._id)}
-            className="w-[61.25rem] rounded-sm bg-gray-100 mb-3 no-underline text-white cursor-pointer shadow-[0px_0px_10px_rgba(0,_0,_0,_0.1)] flex flex-row items-center justify-between py-[0.875rem] pr-[1.938rem] pl-[0.875rem] box-border gap-[1.25rem] z-[1]"
+            className="w-full rounded-sm bg-gray-100 mb-3 no-underline text-white cursor-pointer shadow-[0px_0px_10px_rgba(0,_0,_0,_0.1)] flex flex-row items-center justify-between py-[0.875rem] pr-[1.938rem] pl-[0.875rem] box-border gap-[1.25rem] z-[1]"
           >
             <div className="h-[5rem] w-[63.25rem] relative rounded-sm bg-gray-100 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.1)] hidden max-w-full"></div>
             <div className="flex flex-row items-center justify-start gap-[0rem_1.813rem]">
@@ -120,6 +120,21 @@ const User = () => {
                   sx={{ width: 56, height: 56 }}
                 />
               </Stack>
+
+              {/* <div className="avatar">
+                <div className="w-24 rounded-full">
+                  <img
+                    className="w-16 h-16 rounded-full"
+                    src={profile.profileImage}
+                  />
+                </div>
+              </div>
+
+              <div class="w-16 h-16 rounded-full bg-gray-500 flex justify-center content-center ">
+                <div class="bg-neutral text-neutral-content rounded-full  flex justify-center ">
+                  <span class="text-3xl flex justify-center content-center mt-3">D</span>
+                </div>
+              </div> */}
               <div className="h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center z-[2]">
                 {profile.username}
               </div>

@@ -82,7 +82,7 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 class="w-full [border:none] [outline:none] bg-gray-500 self-stretch h-[3rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
-                placeholder="julie"
+                placeholder="username"
               />
             </div>
             <div class="self-stretch flex flex-col items-start justify-start pt-[0.25rem] px-[0rem] pb-[0.19rem] relative gap-[0.44rem] z-[3]">
@@ -91,7 +91,7 @@ const Login = () => {
               </div>
               <input
                 class="w-full [border:none] [outline:none] bg-gray-500 self-stretch h-[3rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-800 min-w-[15.625rem] z-[1]"
-                placeholder="julie"
+                placeholder="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
