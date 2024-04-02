@@ -115,8 +115,8 @@ const User = () => {
             <div className="flex flex-row items-center justify-start gap-[0rem_1.813rem]">
               <Stack direction="row" spacing={2}>
                 <Avatar
-                  alt={profile.username}
                   src={profile.profileImage}
+                  alt={profile.username}
                   sx={{ width: 56, height: 56 }}
                 />
               </Stack>
