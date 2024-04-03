@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import Chart from "chart.js/auto";
 
 import svgjsline1438 from "../../assets/svgjsline1438.svg";
 import sliderContainer from "../../assets/slider-container.svg";
@@ -8,9 +9,213 @@ import Navbar from "../../components/Navbar/Navbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
 
 const DataAnalysis = () => {
+  const [users, setUsers] = useState([]);
+  const [feeds, setFeeds] = useState([]);
+  const chartRef = useRef(null);
+
+  console.log(feeds);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://devv.legacyx.uk/api/auth/allProfile"
+        );
+        const userData = await response.json();
+        setUsers(userData);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+
+        const response = await fetch(
+          "https://devv.legacyx.uk/api/entity/feed",
+          {
+            headers: {
+              Authorization: `${token}`,
+            },
+          }
+        );
+        const feedData = await response.json();
+        setFeeds(feedData);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log("Users changed:", users);
+    renderChart();
+  }, [users]);
+
+  useEffect(() => {
+    console.log("Feeds changed:", feeds);
+    feedrenderChart();
+  }, [feeds]);
+
+  const countUsersByMonth = () => {
+    const currentDate = new Date();
+    const monthlyCounts = Array(6).fill(0);
+    users.forEach((user) => {
+      const createdAtDate = new Date(user.createdAt);
+      const diffMonths =
+        (currentDate.getFullYear() - createdAtDate.getFullYear()) * 12 +
+        (currentDate.getMonth() - createdAtDate.getMonth());
+      if (diffMonths < 6) {
+        monthlyCounts[5 - diffMonths]++;
+      }
+    });
+    return monthlyCounts;
+  };
+
+
+  
+  const countFeedsByMonth = () => {
+    const currentDate = new Date();
+    const monthlyCounts = Array(6).fill(0);
+    users.forEach((feed) => {
+      const createdAtDate = new Date(feed.createdAt);
+      const diffMonths =
+        (currentDate.getFullYear() - createdAtDate.getFullYear()) * 12 +
+        (currentDate.getMonth() - createdAtDate.getMonth());
+      if (diffMonths < 6) {
+        monthlyCounts[5 - diffMonths]++;
+      }
+    });
+    return monthlyCounts;
+  };
+
+  const getMonthName = (monthIndex) => {
+    const currentDate = new Date();
+    const targetDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - monthIndex,
+      1
+    );
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    return monthNames[targetDate.getMonth()];
+  };
+
+  const renderChart = () => {
+    const monthlyCounts = countUsersByMonth();
+    if (chartRef.current !== null) {
+      chartRef.current.destroy(); // Destroy previous chart
+    }
+    const ctx = document.getElementById("userChart");
+    chartRef.current = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: [
+          getMonthName(5),
+          getMonthName(4),
+          getMonthName(3),
+          getMonthName(2),
+          getMonthName(1),
+          getMonthName(0),
+        ],
+        datasets: [
+          {
+            label: "User Registrations",
+            data: monthlyCounts,
+            backgroundColor: "rgba(54, 162, 235, 0.5)", // Blue color
+            borderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: "Number of Users",
+            },
+          },
+          x: {
+            title: {
+              display: true,
+              text: "Month",
+            },
+          },
+        },
+      },
+    });
+  };
+
+  const feedrenderChart = () => {
+    const monthlyCounts = countFeedsByMonth();
+    if (chartRef.current !== null) {
+      chartRef.current.destroy(); // Destroy previous chart
+    }
+    const ctx = document.getElementById("feedChart");
+    chartRef.current = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: [
+          getMonthName(5),
+          getMonthName(4),
+          getMonthName(3),
+          getMonthName(2),
+          getMonthName(1),
+          getMonthName(0),
+        ],
+        datasets: [
+          {
+            label: "Feed Registrations",
+            data: monthlyCounts,
+            backgroundColor: "rgba(54, 162, 235, 0.5)", // Blue color
+            borderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: "Number of Feeds",
+            },
+          },
+          x: {
+            title: {
+              display: true,
+              text: "Month",
+            },
+          },
+        },
+      },
+    });
+  };
+
   return (
     <section class="flex-1 ml-[19rem] mt-[8rem] rounded-xl bg-gray-200 flex flex-row flex-wrap items-start justify-start p-[2rem] box-border gap-[0rem_1.5rem] min-h-[55.313rem] max-w-[calc(100%_-_300px)] text-left text-[1.625rem] text-white font-gilroy mq900:max-w-full mq450:pt-[1.313rem] mq450:pb-[1.313rem] mq450:box-border">
-      <div class="h-[55.188rem] w-[67.5rem] relative rounded-xl bg-gray-200 hidden max-w-full"></div>
       <div class="flex-1 rounded-[18.28px] bg-gray-300 shadow-[0px_0px_13.71px_rgba(0,_0,_0,_0.15)] flex flex-col items-start justify-start pt-[1.5rem] pb-[1.188rem] pr-[0.813rem] pl-[1rem] box-border relative gap-[2.688rem_0rem] min-w-[20.188rem] max-w-full z-[1] mq675:gap-[2.688rem_0rem]">
         <div class="w-[31rem] h-[20.688rem] relative rounded-[18.28px] bg-gray-300 shadow-[0px_0px_13.71px_rgba(0,_0,_0,_0.15)] hidden max-w-full z-[0]"></div>
         <div class="w-full h-full absolute !m-[0] top-[0.125rem] left-[calc(50%_-_246px)] rounded-[18.28px] bg-gray-100 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.1)] z-[2]"></div>
@@ -157,6 +362,12 @@ const DataAnalysis = () => {
             <div class="relative z-[3]">July</div>
           </div>
         </div>
+      </div>
+
+      <div class="flex-1 rounded-[18.28px] mt-5 bg-gray-300 shadow-[0px_0px_13.71px_rgba(0,_0,_0,_0.15)] flex flex-col items-start justify-start pt-[1.5rem] pb-[1.188rem] pr-[0.813rem] pl-[1rem] box-border relative gap-[2.688rem_0rem] min-w-[20.188rem] max-w-full z-[1] mq675:gap-[2.688rem_0rem]">
+        <h2>User Registration </h2>
+        <canvas id="userChart" width="400" height="200"></canvas>
+        <canvas id="feedChart" width="400" height="200"></canvas>
       </div>
     </section>
   );

@@ -82,52 +82,30 @@ const UserProfile = () => {
 
           <div class="self-stretch mt-6 flex flex-col items-start justify-start gap-[1.5rem_0rem] max-w-full">
             <div class="self-stretch flex flex-row flex-wrap items-start justify-start gap-[0rem_1.5rem] max-w-full">
-              <div class="flex-1 flex flex-col items-start justify-start gap-[1.5rem_0rem] min-w-[20.063rem] max-w-full">
-                <div class="self-stretch flex flex-col items-start justify-start gap-[0.875rem_0rem]">
+              <div class="flex w-full flex-row items-start justify-start gap-[1.5rem] min-w-[20.063rem] max-w-full">
+                <div class="flex flex-col w-6/12 items-start justify-start gap-[0.875rem_0rem]">
                   <div class="h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center shrink-0 z-[1]">
                     username
                   </div>
                   <input
-                    className="w-full border-none outline-none  self-stretch h-[3.375rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
+                    class="w-full border-none outline-none self-stretch h-[3.375rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
                     placeholder={profileData.email}
                     type="text"
                   />
                 </div>
-                <div class="self-stretch flex flex-col items-start justify-start gap-[0.875rem_0rem]">
+                <div class="flex flex-col w-6/12 items-start justify-start gap-[0.875rem_0rem]">
                   <div class="w-[3.063rem] h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center shrink-0 z-[1]">
                     email
                   </div>
                   <input
-                    class="w-full [border:none] [outline:none] self-stretch h-[3.375rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
+                    class="w-full border-none outline-none self-stretch h-[3.375rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
                     placeholder={profileData.email}
                     type="text"
                   />
                 </div>
               </div>
-              <div class="flex-1 flex flex-col items-start justify-start gap-[1.5rem_0rem] min-w-[20.063rem] max-w-full">
-                <div class="self-stretch flex flex-col items-start justify-start gap-[0.875rem_0rem]">
-                  <div class="h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center shrink-0 z-[1]">
-                    full name
-                  </div>
-                  <input
-                    class="w-full [border:none] [outline:none]  self-stretch h-[3.375rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
-                    placeholder={profileData.username}
-                    type="text"
-                  />
-                </div>
-                <div class="self-stretch flex flex-col items-start justify-start gap-[0.875rem_0rem]">
-                  <div class="h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center shrink-0 z-[1]">
-                    phone number
-                  </div>
-                  <input
-                    class="w-full [border:none] [outline:none] self-stretch h-[3.375rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
-                    placeholder="433 558 996 52"
-                    type="text"
-                  />
-                </div>{" "}
-              </div>
             </div>
-            <div className="w-[850px]">
+            <div className="w-[950px]">
               <div className="mt-10  ">
                 <h3 class="m-0 h-[1.375rem] mb-4 relative text-[1.625rem] leading-[1.625rem] capitalize font-semibold font-inherit inline-block shrink-0 z-[1] mq450:text-[1.313rem] mq450:leading-[1.313rem]">
                   content uploaded

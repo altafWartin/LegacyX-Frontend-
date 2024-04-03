@@ -111,48 +111,35 @@ const User = () => {
             onClick={() => fetchSingleProfile(profile._id)}
             className="w-full rounded-sm bg-gray-100 mb-3 no-underline text-white cursor-pointer shadow-[0px_0px_10px_rgba(0,_0,_0,_0.1)] flex flex-row items-center justify-between py-[0.875rem] pr-[1.938rem] pl-[0.875rem] box-border gap-[1.25rem] z-[1]"
           >
-            <div className="h-[5rem] w-[63.25rem] relative rounded-sm bg-gray-100 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.1)] hidden max-w-full"></div>
-            <div className="flex flex-row items-center justify-start gap-[0rem_1.813rem]">
-              <Stack direction="row" spacing={2}>
-                <Avatar
-                  src={profile.profileImage}
-                  alt={profile.username}
-                  sx={{ width: 56, height: 56 }}
-                />
-              </Stack>
-
-              {/* <div className="avatar">
-                <div className="w-24 rounded-full">
-                  <img
-                    className="w-16 h-16 rounded-full"
+            <div>
+              <div className="flex flex-row items-center justify-start gap-[0rem_1.813rem]">
+                <Stack direction="row" spacing={2}>
+                  <Avatar
                     src={profile.profileImage}
+                    alt={profile.username}
+                    sx={{ width: 56, height: 56 }}
                   />
+                </Stack>
+
+                <div className="h-[0.75rem]  relative leading-[1.125rem] capitalize flex items-center z-[2]">
+                  {profile.username}
+                </div>
+              </div>
+            </div>
+            <div className="flex w-1/2 items-center justify-between">
+              <div className="flex flex-col items-start justify-end py-[0rem] pr-[0.25rem] pl-[0rem]">
+                <div className="h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center shrink-0 whitespace-nowrap z-[2]">
+                  {profile.email}
                 </div>
               </div>
 
-              <div class="w-16 h-16 rounded-full bg-gray-500 flex justify-center content-center ">
-                <div class="bg-neutral text-neutral-content rounded-full  flex justify-center ">
-                  <span class="text-3xl flex justify-center content-center mt-3">D</span>
-                </div>
-              </div> */}
-              <div className="h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center z-[2]">
-                {profile.username}
-              </div>
+              <img
+                className="h-[1.625rem] w-[0.375rem] relative object-contain z-[2]"
+                loading="lazy"
+                alt=""
+                src={group42a}
+              />
             </div>
-            <div className="flex flex-col items-start justify-start py-[0rem] pr-[0.25rem] pl-[0rem]">
-              <div className="h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center shrink-0 whitespace-nowrap z-[2]">
-                {profile.email}
-              </div>
-            </div>
-            <div className="h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center z-[2]">
-              {profile.otp}
-            </div>
-            <img
-              className="h-[1.625rem] w-[0.375rem] relative object-contain z-[2]"
-              loading="lazy"
-              alt=""
-              src={group42a}
-            />
           </div>
         ))}
       </div>

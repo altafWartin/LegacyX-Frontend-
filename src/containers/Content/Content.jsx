@@ -280,7 +280,7 @@ const Content = () => {
                         </div>
                       </div>
                       <div class="self-stretch h-[2.375rem] flex flex-row items-start justify-start text-[1rem]">
-                        <div class="self-stretch w-[16.313rem] pl-2 relative leading-[1.375rem] capitalize inline-block shrink-0 z-[2]">
+                        <div class="self-stretch w-full object-cover pl-2 relative leading-[1.375rem] capitalize inline-block shrink-0 z-[2]">
                           {item.caption}
                         </div>
                       </div>
