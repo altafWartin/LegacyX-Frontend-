@@ -21,6 +21,50 @@ const Content = () => {
 
   const [selectedContentId, setSelectedContentId] = useState(null); // State variable to hold selected content ID
 
+  const [checkedItems, setCheckedItems] = useState([]);
+
+  const handleCheckboxChange = (event, id) => {
+    if (event.target.checked) {
+      // If checkbox is checked, add the ID to checkedItems array
+      setCheckedItems([...checkedItems, id]);
+    } else {
+      // If checkbox is unchecked, remove the ID from checkedItems array
+      setCheckedItems(checkedItems.filter((item) => item !== id));
+    }
+  };
+
+  console.log(checkedItems, "id");
+  const handleMultipleMediaDelete = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        throw new Error("Access token not found in local storage");
+      }
+      const response = await fetch(
+        "http://localhost:4400/api/entity/delete-mc",
+        {
+          method: "POST", // Change method to POST
+          headers: {
+            "Content-Type": "application/json",
+            authorization: accessToken,
+          },
+          body: JSON.stringify({ checkedItems: checkedItems }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete media items");
+      }
+
+      const responseData = await response.json();
+      console.log(responseData.message); // Log success message
+      // Clear checkedItems state after successful deletion
+      setCheckedItems([]);
+    } catch (error) {
+      console.error("Error deleting media:", error);
+    }
+  };
+
   const handleClick = (event, contentId) => {
     setAnchorEl(event.currentTarget);
     setSelectedContentId(contentId); // Store the content ID of the clicked item
@@ -140,15 +184,17 @@ const Content = () => {
                       src={vector12}
                     />
                   </div>
-                  <button class="cursor-pointer [border:none] pt-[1rem] px-[2rem] pb-[0.938rem] bg-white rounded-3xs flex flex-row items-end justify-start gap-[0rem_0.5rem] z-[1] hover:bg-gainsboro-100">
-                    <div class="h-[2.875rem] w-[8.813rem] relative rounded-3xs bg-white hidden"></div>
+                  <button
+                    onClick={() => handleMultipleMediaDelete()}
+                    class="cursor-pointer [border:none] pt-[1rem] px-[2rem] pb-[0.938rem] bg-white rounded-3xs flex flex-row items-end justify-start gap-[0rem_0.5rem] z-[1] hover:bg-gainsboro-100"
+                  >
                     <img
                       class="h-[0.938rem] w-[0.813rem] relative min-h-[0.938rem] z-[2]"
                       alt=""
                       src={group51}
                     />
 
-                    <div class="relative text-[1.125rem] leading-[0.75rem] capitalize font-gilroy text-gray-200 text-center z-[2]">
+                    <div class="relative text-[1.125rem] border-0 bg-white leading-[0.75rem] capitalize font-gilroy text-gray-200 text-center z-[2]">
                       delete
                     </div>
                   </button>
@@ -165,21 +211,21 @@ const Content = () => {
                       class="self-stretch rounded-sm bg-gray-100 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.1)] flex flex-col items-center justify-start pt-[0.625rem] px-[0.563rem] pb-[1.313rem] box-border gap-[1.125rem_0rem] max-w-full z-[1] text-[1.375rem]"
                     >
                       <div class="self-stretch rounded-3xs flex flex-col items-start justify-start p-[0.5rem] gap-[7.25rem_0rem] bg-cover bg-no-repeat bg-[top] z-[2] relative">
-                      {item.entityType === 'videos' ? (
-                            <video
-                                className="h-[12.375rem] w-full object-cover rounded-3xs"
-                                loop // Add loop attribute to play video in a loop
-                                autoPlay // Add autoPlay attribute to enable autoplay
-                                muted // Mute the video to enable autoplay without sound
-                                src={item.url} // Assuming you have a video URL in your 'media' object
-                                alt={item.caption}
-                            />
+                        {item.entityType === "videos" ? (
+                          <video
+                            className="h-[12.375rem] w-full object-cover rounded-3xs"
+                            loop // Add loop attribute to play video in a loop
+                            autoPlay // Add autoPlay attribute to enable autoplay
+                            muted // Mute the video to enable autoplay without sound
+                            src={item.url} // Assuming you have a video URL in your 'media' object
+                            alt={item.caption}
+                          />
                         ) : (
-                            <img
-                                className="h-[12.375rem] w-full object-cover rounded-3xs"
-                                src={item.url}
-                                alt={item.caption}
-                            />
+                          <img
+                            className="h-[12.375rem] w-full object-cover rounded-3xs"
+                            src={item.url}
+                            alt={item.caption}
+                          />
                         )}
 
                         <div class="form-check absolute top-0 left-0 ml-[1rem] mt-[0.6rem]">
@@ -187,13 +233,14 @@ const Content = () => {
                             class="form-check-input w-[1.875rem] h-[1.875rem]"
                             type="checkbox"
                             value=""
-                            id="flexCheckChecked"
+                            id={item.id} // Use item ID as the ID of the checkbox
+                            onChange={(event) =>
+                              handleCheckboxChange(event, item.id)
+                            } // Pass item ID to handleCheckboxChange function
                           />
                         </div>
 
-                        <button
-                          class="cursor-pointer [border:none] pt-[0.688rem] m-[1rem]  pb-[0.75rem] pr-[1.125rem] pl-[1.188rem] bg-gray-700 rounded-md [backdrop-filter:blur(20px)] flex flex-row items-center justify-center z-[3] hover:bg-gainsboro-200 absolute bottom-0 left-0 m-[0.5rem]"
-                        >
+                        <button class="cursor-pointer [border:none] pt-[0.688rem] m-[1rem]  pb-[0.75rem] pr-[1.125rem] pl-[1.188rem] bg-gray-700 rounded-md [backdrop-filter:blur(20px)] flex flex-row items-center justify-center z-[3] hover:bg-gainsboro-200 absolute bottom-0 left-0 m-[0.5rem]">
                           <div class="relative text-[1rem]  leading-[1rem] capitalize font-gilroy text-white text-center z-[4]">
                             {item.entityType}{" "}
                           </div>

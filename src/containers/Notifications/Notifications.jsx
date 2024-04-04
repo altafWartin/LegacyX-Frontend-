@@ -118,7 +118,7 @@ const Notifications = () => {
     <section class="flex-1 rounded-xl w-full ml-[19rem] mt-[8rem] bg-gray-200 flex flex-col items-start justify-start pt-[2.125rem] px-[2.125rem] pb-[24.625rem] box-border gap-[0.875rem_0rem] max-w-full text-left text-[1.125rem] text-white font-gilroy mq925:pt-[1.375rem] mq925:pb-[16rem] mq925:box-border mq925:max-w-full mq450:pt-[1.25rem] mq450:pb-[10.375rem] mq450:box-border">
       <div class="flex-1 flex flex-col w-full items-end justify-start  min-w-[27.125rem] max-w-full text-[1.375rem] mq700:min-w-full">
         <div class="flex  items-start  w-full justify-between  max-w-full text-[1.125rem] mq700:flex-wrap">
-          <h1 class="m-0  relative text-inherit leading-[2.375rem] text-[3.125rem] capitalize font-semibold font-inherit inline-block shrink-0 z-[1]  ">
+          <h1 class="m-0  relative text-inherit leading-[2.375rem] text-[3rem] capitalize font-semibold font-inherit inline-block shrink-0 z-[1]  ">
             Notification
           </h1>{" "}
           <div className="flex gap-2">
