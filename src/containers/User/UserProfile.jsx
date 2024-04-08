@@ -71,6 +71,7 @@ const UserProfile = () => {
           alt=""
           src={Profile}
         /> */}
+          
           <Stack direction="row" spacing={2}>
             <Avatar
               variant="rounded"
@@ -89,7 +90,7 @@ const UserProfile = () => {
                   </div>
                   <input
                     class="w-full border-none outline-none self-stretch h-[3.375rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
-                    placeholder={profileData.email}
+                    placeholder={profileData.username}
                     type="text"
                   />
                 </div>

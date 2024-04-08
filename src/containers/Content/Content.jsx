@@ -18,6 +18,7 @@ const Content = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [mediaIds, setMediaIds] = useState(null);
 
   const [selectedContentId, setSelectedContentId] = useState(null); // State variable to hold selected content ID
 
@@ -34,34 +35,35 @@ const Content = () => {
   };
 
   console.log(checkedItems, "id");
-  const handleMultipleMediaDelete = async () => {
+  async function deleteMultipleMedia(checkedItems) {
     try {
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
         throw new Error("Access token not found in local storage");
       }
       const response = await fetch(
-        "http://localhost:4400/api/entity/delete-mc",
+        "http://localhost:4400/api/delete-multiple-media",
         {
-          method: "POST", // Change method to POST
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             authorization: accessToken,
           },
-          body: JSON.stringify({ checkedItems: checkedItems }),
+          body: JSON.stringify({ checkedItems }),
         }
       );
+      console.log(response,"response")
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message); // Log success message
+        // Optionally, update your UI or perform other actions upon successful deletion
+        window.location.reload();
 
-      if (!response.ok) {
-        throw new Error("Failed to delete media items");
+      } else {
+        console.error("Failed to delete multiple media");
       }
-
-      const responseData = await response.json();
-      console.log(responseData.message); // Log success message
-      // Clear checkedItems state after successful deletion
-      setCheckedItems([]);
     } catch (error) {
-      console.error("Error deleting media:", error);
+      console.error("An error occurred while deleting multiple media:", error);
     }
   };
 
@@ -113,19 +115,17 @@ const Content = () => {
     console.log(mediaId);
     try {
       const response = await fetch(
-        `htt://localhost:4400/api/entity/delete/${mediaId}`,
+        `https://devv.legacyx.uk/api/entity/delete/${mediaId}`, // Corrected URL
         {
-          method: "GET",
+          method: "GET", // Use DELETE method to indicate deletion
         }
       );
 
-      console.log(mediaId);
       if (response.ok) {
         // If deletion is successful, remove the media item from the state or re-fetch the media list
         const data = await response.json();
         console.log(data.message); // Log success message
-
-        // console.log("Media deleted successfully");
+        window.location.reload();
       } else {
         console.error("Failed to delete media");
       }
@@ -185,7 +185,7 @@ const Content = () => {
                     />
                   </div>
                   <button
-                    onClick={() => handleMultipleMediaDelete()}
+                    onClick={() => deleteMultipleMedia()}
                     class="cursor-pointer [border:none] pt-[1rem] px-[2rem] pb-[0.938rem] bg-white rounded-3xs flex flex-row items-end justify-start gap-[0rem_0.5rem] z-[1] hover:bg-gainsboro-100"
                   >
                     <img
@@ -252,77 +252,11 @@ const Content = () => {
                             {item.tags}
                           </h3>
                           <div class="flex flex-col items-start justify-start pt-[0rem] px-[0rem] pb-[0.25rem]">
-                            <div className="relative">
-                              <IconButton
-                                aria-label="more"
-                                aria-controls="dropdown-menu"
-                                aria-haspopup="true"
-                                onClick={(event) => handleClick(event, item.id)} // Pass content ID to handleClick function
-                              >
-                                <img
-                                  className="w-[1.438rem] h-[0.313rem] relative z-[2]"
-                                  loading="lazy"
-                                  alt=""
-                                  src={group9}
-                                />
-                              </IconButton>
-                              <Menu
-                                id="dropdown-menu"
-                                anchorEl={anchorEl}
-                                open={Boolean(anchorEl)}
-                                onClose={handleClose}
-                                getContentAnchorEl={null}
-                                PaperProps={{
-                                  style: {
-                                    backgroundColor: "gray",
-                                    color: "#ffffff", // Text color set to white
-                                    position: "absolute",
-                                    left: "0",
-                                    // height:"8rem",
-                                    marginTop: "0rem",
-                                    marginLeft: "-6rem",
-                                  },
-                                }}
-                              >
-                                <MenuItem
-                                  className="hover:bg-gray-600"
-                                  onClick={handleClose}
-                                >
-                                  <div className="flex flex-row items-start justify-start p-[0rem] pr-[1.625rem] pl-[0.688rem]">
-                                    <div className="flex flex-row items-start justify-start gap-[0rem_0.5rem]">
-                                      <img
-                                        className="h-[0.75rem] w-[0.875rem] relative min-h-[0.75rem] z-[4]"
-                                        loading="lazy"
-                                        alt=""
-                                        src={EditHide}
-                                      />
-                                      <div className="relative leading-[0.75rem] capitalize z-[4]">
-                                        hide
-                                      </div>
-                                    </div>
-                                  </div>
-                                </MenuItem>
-
-                                <MenuItem
-                                  className="hover:bg-gray-600"
-                                  onClick={handleDeleteMedia} // Call handleDeleteMedia when delete option is clicked
-                                >
-                                  <div className="flex flex-row items-start justify-start p-[0rem] pr-[1.125rem] pl-[0.688rem] text-left">
-                                    <div className="flex flex-row items-center justify-start gap-[0rem_0.563rem]">
-                                      <img
-                                        className="h-[0.938rem] w-[0.813rem] relative z-[4]"
-                                        loading="lazy"
-                                        alt=""
-                                        src={group5}
-                                      />
-                                      <div className="relative leading-[0.75rem] capitalize z-[4]">
-                                        delete
-                                      </div>
-                                    </div>
-                                  </div>
-                                </MenuItem>
-                              </Menu>
-                            </div>
+                            <i
+                              onClick={() => handleDeleteMedia(item.id)}
+                              className="fa fa-trash mr-4"
+                              aria-hidden="true"
+                            ></i>
                           </div>
                         </div>
                       </div>
