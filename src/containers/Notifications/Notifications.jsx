@@ -68,25 +68,32 @@ const Notifications = () => {
     setNotificationText(event.target.value);
   };
 
-  const handleNotificationSubmit = () => {
+  const handleNotificationSubmit = (event) => {
+    event.preventDefault();
     console.log("Submitting notification...");
-  console.log("Notification data:", {
-    notificationType: selectedOption,
-    userIds: selectedUsers.map((user) => user.value),
-    notificationText: notificationText,
-  });
+
+    console.log("Notification data:", {
+      notificationType: selectedOption,
+      userIds: selectedUsers.map((user) => user.value),
+      notificationText: notificationText,
+    });
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      throw new Error("Access token not found in local storage");
+    }
     // Perform API call here
     fetch("https://devv.legacyx.uk/api/auth/send-notification", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: accessToken,
+
         // Add any other headers required by your API
       },
       body: JSON.stringify({
         notificationType: selectedOption,
         userIds: selectedUsers.map((user) => user.value),
         notificationText: notificationText,
-
       }),
     })
       .then((response) => {
@@ -103,18 +110,14 @@ const Notifications = () => {
       .then((data) => {
         console.log("API Response:", data); // Log the parsed JSON response
         window.location.reload(false);
-
       })
       .catch((error) => {
         // Handle error
         console.error("Error:", error);
       });
   };
-   
+
   return (
-
-
-    
     <section class="flex-1 rounded-xl w-full ml-[19rem] mt-[8rem] bg-gray-200 flex flex-col items-start justify-start pt-[2.125rem] px-[2.125rem] pb-[24.625rem] box-border gap-[0.875rem_0rem] max-w-full text-left text-[1.125rem] text-white font-gilroy mq925:pt-[1.375rem] mq925:pb-[16rem] mq925:box-border mq925:max-w-full mq450:pt-[1.25rem] mq450:pb-[10.375rem] mq450:box-border">
       <div class="flex-1 flex flex-col w-full items-end justify-start  min-w-[27.125rem] max-w-full text-[1.375rem] mq700:min-w-full">
         <div class="flex  items-start  w-full justify-between  max-w-full text-[1.125rem] mq700:flex-wrap">
@@ -203,7 +206,7 @@ const Notifications = () => {
                   outline: "none",
                   backgroundColor: "white",
                   minHeight: "3.375rem",
-                  maxHeight:"3.375rem",
+                  maxHeight: "3.375rem",
                   borderRadius: "0.55rem",
                   overflow: "hidden",
                   display: "flex",
@@ -229,7 +232,7 @@ const Notifications = () => {
                 }),
                 option: (provided, state) => ({
                   ...provided,
-                  backgroundColor:  "white", // Set background to transparent
+                  backgroundColor: "white", // Set background to transparent
                   color: state.isSelected ? "#F9FAFB" : "#9CA3AF", // Set text color based on selection
                   cursor: "pointer !important",
                   zIndex: 100,
@@ -257,7 +260,7 @@ const Notifications = () => {
                 menuList: (provided) => ({
                   ...provided,
                   backgroundColor: "rgba(255, 255, 255, 0.4)",
-                  cursor:"pointer",
+                  cursor: "pointer",
                   maxHeight: "200px", // Adjust the maximum height as needed
                   overflowY: "auto", // Enable vertical scrolling
                 }),
@@ -279,7 +282,7 @@ const Notifications = () => {
         />
       </div>
       <button
-        onClick={handleNotificationSubmit}
+        onClick={(event)=>handleNotificationSubmit(event)}
         class="cursor-pointer [border:none] mt-4 py-[1.063rem] pr-[2.563rem] pl-[2.625rem] bg-white rounded-3xs flex flex-row items-start justify-start z-[1] hover:bg-gainsboro-100"
       >
         <div class="h-[2.875rem] w-[8.813rem] relative rounded-3xs bg-white hidden"></div>
