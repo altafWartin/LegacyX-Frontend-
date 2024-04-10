@@ -62,15 +62,10 @@ const UserProfile = () => {
   }, []);
 
   return (
-    <div className="w-full h-[1200px]  ml-[19rem] mt-[8rem]">
+    <div className="w-9/12 h-[1200px]    ml-[19rem] mt-[8rem]">
       <section class="flex-1 h-[900px] rounded-xl w-full bg-gray-200 flex flex-col items-start justify-start pt-[2.125rem] pb-[3.625rem] pr-[2.063rem] pl-[2.125rem] box-border gap-[2.063rem_0rem]  text-left text-[1.125rem] text-white font-gilroy mq675:gap-[1rem_0rem] mq900:pt-[1.375rem] mq900:pb-[2.375rem] mq900:box-border mq900:max-w-full mq450:pt-[1.25rem] mq450:pb-[1.563rem] mq450:box-border">
         <div className="w-full">
-          {/* <img
-          class="w-[11.438rem] h-[11.438rem] relative rounded-[22px] object-cover z-[1]"
-          loading="lazy"
-          alt=""
-          src={Profile}
-        /> */}
+   
           
           <Stack direction="row" spacing={2}>
             <Avatar
@@ -89,7 +84,7 @@ const UserProfile = () => {
                     username
                   </div>
                   <input
-                    class="w-full border-none outline-none self-stretch h-[3.375rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
+                    class="w-full border-none outline-none self-stretch h-[3.375rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[8.625rem] z-[1]"
                     placeholder={profileData.username}
                     type="text"
                   />
@@ -99,20 +94,20 @@ const UserProfile = () => {
                     email
                   </div>
                   <input
-                    class="w-full border-none outline-none self-stretch h-[3.375rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
+                    class="w-full border-none outline-none self-stretch h-[3.375rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[8.625rem] z-[1]"
                     placeholder={profileData.email}
                     type="text"
                   />
                 </div>
               </div>
             </div>
-            <div className="w-[950px]">
-              <div className="mt-10  ">
+            <div className="w-full">
+            <div className="mt-10">
                 <h3 class="m-0 h-[1.375rem] mb-4 relative text-[1.625rem] leading-[1.625rem] capitalize font-semibold font-inherit inline-block shrink-0 z-[1] mq450:text-[1.313rem] mq450:leading-[1.313rem]">
                   content uploaded
                 </h3>
 
-                <div className="flex gap-4 overscroll-x-auto overflow-auto ">
+                <div className="w-full  flex gap-4 overscroll-x-auto overflow-auto ">
                   {mediaData &&
                     mediaData.allMedia.map((media, index) => (
                       <div
@@ -120,22 +115,23 @@ const UserProfile = () => {
                         class="self-stretch  rounded-sm bg-gray-100 shadow-[0px_0px_10px_rgba(0,_0,_0,_0.1)] flex flex-col items-center justify-start pt-[0.625rem] px-[0.563rem] pb-[1.313rem] box-border gap-[1.125rem_0rem] max-w-full z-[1] text-[1.375rem]"
                       >
                         <div class="self-stretch rounded-3xs flex flex-col items-start justify-start p-[0.5rem] gap-[7.25rem_0rem] bg-cover bg-no-repeat bg-[top] z-[2] relative">
-                          <img
-                            class="w-[18.0rem] h-[12.375rem] relative rounded-3xs object-cover z-[0]"
-                            alt={media.name}
-                            src={media.url}
+                        {media.entityType === "videos" ? (
+                          <video
+                            className="h-[12.375rem] w-full object-cover rounded-3xs"
+                            loop // Add loop attribute to play video in a loop
+                            autoPlay // Add autoPlay attribute to enable autoplay
+                            muted // Mute the video to enable autoplay without sound
+                            src={media.url} // Assuming you have a video URL in your 'media' object
+                            alt={media.caption}
                           />
-                          {/* <ReactPlayer
-                          style={{
-                            width: "18rem",
-                            height: "12.375rem",
-                            position: "relative",
-                            borderRadius: "3px", // I'm assuming 'rounded-3xs' means 3px border-radius
-                            objectFit: "cover",
-                            zIndex: 0,
-                          }}
-                          url={media.url}
-                        /> */}
+                        ) : (
+                          <img
+                            className="h-[12.375rem] w-full object-cover rounded-3xs"
+                            src={media.url}
+                            alt={media.caption}
+                          />
+                        )}
+                    
 
                           <div class="form-check absolute top-0 left-0 ml-[1rem] mt-[0.6rem]">
                             <input

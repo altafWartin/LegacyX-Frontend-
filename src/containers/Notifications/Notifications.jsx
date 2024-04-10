@@ -121,43 +121,13 @@ const Notifications = () => {
     <section class="flex-1 rounded-xl w-full ml-[19rem] mt-[8rem] bg-gray-200 flex flex-col items-start justify-start pt-[2.125rem] px-[2.125rem] pb-[24.625rem] box-border gap-[0.875rem_0rem] max-w-full text-left text-[1.125rem] text-white font-gilroy mq925:pt-[1.375rem] mq925:pb-[16rem] mq925:box-border mq925:max-w-full mq450:pt-[1.25rem] mq450:pb-[10.375rem] mq450:box-border">
       <div class="flex-1 flex flex-col w-full items-end justify-start  min-w-[27.125rem] max-w-full text-[1.375rem] mq700:min-w-full">
         <div class="flex  items-start  w-full justify-between  max-w-full text-[1.125rem] mq700:flex-wrap">
-          <h1 class="m-0  relative text-inherit leading-[2.375rem] text-[3rem] capitalize font-semibold font-inherit inline-block shrink-0 z-[1]  ">
+          <h1 class="m-0  relative text-inherit leading-[2.375rem] text-[40px] capitalize font-semibold font-inherit inline-block shrink-0 z-[1]  ">
             Notification
           </h1>{" "}
-          <div className="flex gap-2">
-            <div class="rounded-3xs flex flex-row items-center justify-start py-[1.063rem] pr-[1.188rem] pl-[1.063rem] gap-[1.125rem] z-[1] border-[0.6px] border-solid border-white">
-              <div class="flex flex-row items-start justify-start gap-[0rem_0.813rem]">
-                <div class="relative leading-[0.75rem] capitalize z-[1]">
-                  sort by :
-                </div>
-                <div class="relative leading-[0.75rem] capitalize z-[1]">
-                  recent
-                </div>
-              </div>
-              <img
-                class="h-[0.25rem] w-[0.5rem] relative z-[1]"
-                loading="lazy"
-                alt=""
-                src={vector12}
-              />
-            </div>
-            <button class="cursor-pointer [border:none] pt-[1rem] px-[2rem] pb-[0.938rem] bg-white rounded-3xs flex flex-row items-end justify-start gap-[0rem_0.5rem] z-[1] hover:bg-gainsboro-100">
-              <div class="h-[2.875rem] w-[8.813rem] relative rounded-3xs bg-white hidden"></div>
-              <img
-                class="h-[0.938rem] w-[0.813rem] relative min-h-[0.938rem] z-[2]"
-                alt=""
-                src={group51}
-              />
-
-              <div class="relative text-[1.125rem] leading-[0.75rem] capitalize font-gilroy text-gray-200 text-center z-[2]">
-                delete
-              </div>
-            </button>{" "}
-          </div>
         </div>
       </div>
 
-      <div class="self-stretch flex flex-row mt-3 flex-wrap items-start justify-start gap-[0rem_1.5rem] max-w-full">
+      <div class="self-stretch flex flex-row mt-7 flex-wrap items-start justify-start gap-[0rem_1.5rem] max-w-full">
         <div class="flex-1 flex flex-col items-start justify-start gap-[1.5rem_0rem] min-w-[20.063rem] max-w-full">
           <div class="self-stretch flex flex-col items-start justify-start gap-[0.875rem_0rem]">
             <div class="h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center shrink-0 z-[1]">
@@ -282,7 +252,7 @@ const Notifications = () => {
         />
       </div>
       <button
-        onClick={(event)=>handleNotificationSubmit(event)}
+        onClick={(event) => handleNotificationSubmit(event)}
         class="cursor-pointer [border:none] mt-4 py-[1.063rem] pr-[2.563rem] pl-[2.625rem] bg-white rounded-3xs flex flex-row items-start justify-start z-[1] hover:bg-gainsboro-100"
       >
         <div class="h-[2.875rem] w-[8.813rem] relative rounded-3xs bg-white hidden"></div>
