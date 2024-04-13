@@ -2,11 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
 const UserChart = () => {
-
-    const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const chartRef = useRef(null);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,14 +22,10 @@ const UserChart = () => {
     fetchData();
   }, []);
 
-
-
   useEffect(() => {
     console.log("Users changed:", users);
     renderChart();
   }, [users]);
-
-
 
   const countUsersByMonth = () => {
     const currentDate = new Date();
@@ -47,10 +41,6 @@ const UserChart = () => {
     });
     return monthlyCounts;
   };
-
-
-  
-
 
   const getMonthName = (monthIndex) => {
     const currentDate = new Date();
@@ -124,14 +114,14 @@ const UserChart = () => {
   };
 
   return (
-
     <div class="flex-1 w-full rounded-[18.28px] mt-5 bg-gray-100 shadow-[0px_0px_13.71px_rgba(0,_0,_0,_0.15)] flex flex-col items-start justify-start pt-[1.5rem] pb-[1.188rem] pr-[0.813rem] pl-[1rem] box-border relative gap-[2.688rem_0rem] min-w-[20.188rem] max-w-full z-[1] mq675:gap-[2.688rem_0rem]">
-    <h2>User Registration </h2>
-    <canvas id="userChart" width="400" height="200"></canvas>
+      <div className=" w-full  px-2 d-flex justify-content-between">
+        <h2 className="mr-">User Registration</h2>
+        <h2>{users.length}</h2>
+      </div>
+      <canvas id="userChart" width="400" height="200"></canvas>
+    </div>
+  );
+};
 
-  </div>
-
-  )
-}
-
-export default UserChart
+export default UserChart;

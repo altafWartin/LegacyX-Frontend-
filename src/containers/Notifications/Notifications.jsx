@@ -5,6 +5,8 @@ import Select from "react-select";
 
 import makeAnimated from "react-select/animated";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const animatedComponents = makeAnimated();
 
 const Notifications = () => {
@@ -17,6 +19,9 @@ const Notifications = () => {
 
   console.log(selectedUsers, "selectedUsers");
 
+
+  const notify = () => toast.success("Notification sent successfully!!!");
+  const notif = () => toast.error("Error ");
   const handleSelectChange = (selectedOptions) => {
     setSelectedUsers(selectedOptions);
     const selectedValues = selectedOptions.map((option) => option.value);
@@ -77,6 +82,7 @@ const Notifications = () => {
       userIds: selectedUsers.map((user) => user.value),
       notificationText: notificationText,
     });
+    
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) {
       throw new Error("Access token not found in local storage");
@@ -101,7 +107,11 @@ const Notifications = () => {
         if (response.ok) {
           // Notification successfully sent
           console.log("Notification sent successfully");
+          notify()
+
         } else {
+          notif()
+
           // Notification failed
           console.error("Failed to send notification");
         }
@@ -109,17 +119,20 @@ const Notifications = () => {
       })
       .then((data) => {
         console.log("API Response:", data); // Log the parsed JSON response
-        window.location.reload(false);
+        // window.location.reload(false);
       })
       .catch((error) => {
-        // Handle error
+        // Handle error 
+        notif()
+
         console.error("Error:", error);
       });
   };
 
   return (
     <section class="flex-1 rounded-xl w-full ml-[19rem] mt-[8rem] bg-gray-200 flex flex-col items-start justify-start pt-[2.125rem] px-[2.125rem] pb-[24.625rem] box-border gap-[0.875rem_0rem] max-w-full text-left text-[1.125rem] text-white font-gilroy mq925:pt-[1.375rem] mq925:pb-[16rem] mq925:box-border mq925:max-w-full mq450:pt-[1.25rem] mq450:pb-[10.375rem] mq450:box-border">
-      <div class="flex-1 flex flex-col w-full items-end justify-start  min-w-[27.125rem] max-w-full text-[1.375rem] mq700:min-w-full">
+    <ToastContainer  className="text-[1rem]"/>
+    <div class="flex-1 flex flex-col w-full items-end justify-start  min-w-[27.125rem] max-w-full text-[1.375rem] mq700:min-w-full">
         <div class="flex  items-start  w-full justify-between  max-w-full text-[1.125rem] mq700:flex-wrap">
           <h1 class="m-0  relative text-inherit leading-[2.375rem] text-[40px] capitalize font-semibold font-inherit inline-block shrink-0 z-[1]  ">
             Notification

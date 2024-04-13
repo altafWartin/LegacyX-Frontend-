@@ -27,7 +27,7 @@ const FeedChart = () => {
         console.log("feedData", feedData); // Log the parsed data
         setFeeds(feedData);
         setUsers(feedData.allMedia);
-        console.log(users,"users")
+        console.log(users, "users");
       } catch (error) {
         console.error("Error fetching feed data:", error);
       }
@@ -139,16 +139,19 @@ const FeedChart = () => {
       chartInstance.update();
     }
   };
+console.log(users.length,"------",feeds.allMedia);
+
 
   return (
     <div>
-      {users.length > 0 && (
-        <div className="flex-1 rounded-[18.28px] mt-5 bg-gray-100 shadow-[0px_0px_13.71px_rgba(0,_0,_0,_0.15)] flex flex-col items-start justify-start pt-[1.5rem] pb-[1.188rem] pr-[0.813rem] pl-[1rem] box-border relative gap-[2.688rem_0rem] min-w-[20.188rem] max-w-full z-[1] mq675:gap-[2.688rem_0rem]">
-          <h2>Feeds</h2>
-          <canvas id="Chart" width="400" height="200"></canvas>
-        </div>
-      )}
-    </div>
+        {users.length > 0 && (
+          <div className="flex-1 rounded-[18.28px] mt-5 bg-gray-100 shadow-[0px_0px_13.71px_rgba(0,_0,_0,_0.15)] flex flex-col items-start justify-start pt-[1.5rem] pb-[1.188rem] pr-[0.813rem] pl-[1rem] box-border relative gap-[2.688rem_0rem] min-w-[20.188rem] max-w-full z-[1] mq675:gap-[2.688rem_0rem]">
+          <h2>Feeds </h2>
+            <canvas id="Chart" width="400" height="200"></canvas>
+          </div>
+        )}
+      </div>
+    
   );
 };
 

@@ -132,57 +132,7 @@ const Sidebar = () => {
 
                 <div class="relative leading-[1.125rem] z-[1]">Content</div>
               </Link>
-              <Link
-                to="/settings"
-                className={`self-stretch rounded-3xs no-underline flex flex-row items-center py-3  justify-start  gap-[0rem_1.188rem] whitespace-nowrap z-[1] ${
-                  isLinkActive("/settings")
-                  ? "bg-white text-black active  pl-5"
 
-                    : "text-white"
-                }`}
-              >
-                <img
-                  class="w-[1.25rem] h-[1.125rem] relative z-[1]"
-                  loading="lazy"
-                  alt=""
-                  src={group2}
-                />
-                <div class="relative leading-[1.125rem] z-[1]">Settings</div>
-              </Link>
-              <Link
-                to="/security"
-                className={`self-stretch rounded-3xs no-underline flex flex-row items-center py-3  justify-start gap-[0rem_1.188rem] whitespace-nowrap z-[1] ${
-                  isLinkActive("/security")
-                  ? "bg-white text-black active  pl-5"
-
-                    : "text-white"
-                }`}
-              >
-                <img
-                  class="h-[1.375rem] w-[1.25rem] relative"
-                  loading="lazy"
-                  alt=""
-                  src={group3}
-                />{" "}
-                <div class="relative leading-[1.125rem] z-[1]">Security</div>
-              </Link>
-              <Link
-                to="/reporting"
-                className={`self-stretch rounded-3xs no-underline flex flex-row items-center py-3  justify-start gap-[0rem_1.188rem] whitespace-nowrap z-[1] ${
-                  isLinkActive("/reporting")
-                  ? "bg-white text-black active  pl-5"
-
-                    : "text-white"
-                }`}
-              >
-                <img
-                  class="w-[1.25rem] h-[1.563rem] relative z-[1]"
-                  alt=""
-                  src={vector2}
-                />
-                <div class="relative leading-[1.125rem] z-[1]">Reporting</div>
-              </Link>
-           
               <Link
                 to="/notifications"
                 onClick={() => handleLinkClick("/notifications")}

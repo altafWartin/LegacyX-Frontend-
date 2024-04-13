@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import rectangle from "../../assets/rectangle-19@2x.png";
 import rectangle1 from "../../assets/rectangle-19@2x.png";
 import vector from "../../assets/vector-21.svg";
@@ -21,8 +23,8 @@ const Content = () => {
   const [mediaIds, setMediaIds] = useState(null);
 
   const [selectedContentId, setSelectedContentId] = useState(null); // State variable to hold selected content ID
-
   const [checkedItems, setCheckedItems] = useState([]);
+  const [reloadComponent, setReloadComponent] = useState(false); // State variable to trigger component reload
 
   const handleCheckboxChange = (event, id) => {
     if (event.target.checked) {
@@ -33,6 +35,8 @@ const Content = () => {
       setCheckedItems(checkedItems.filter((item) => item !== id));
     }
   };
+
+  const notify = () => toast.success("This content is delete successfully!!!");
 
   console.log(checkedItems, "id");
   async function deleteMultipleMedia(checkedItems) {
@@ -52,20 +56,19 @@ const Content = () => {
           body: JSON.stringify({ checkedItems }),
         }
       );
-      console.log(response,"response")
+      console.log(response, "response");
       if (response.ok) {
         const data = await response.json();
         console.log(data.message); // Log success message
-        // Optionally, update your UI or perform other actions upon successful deletion
-        window.location.reload();
-
+        // Update reloadComponent state to trigger component reload
+        setReloadComponent(!reloadComponent);
       } else {
         console.error("Failed to delete multiple media");
       }
     } catch (error) {
       console.error("An error occurred while deleting multiple media:", error);
     }
-  };
+  }
 
   const handleClick = (event, contentId) => {
     setAnchorEl(event.currentTarget);
@@ -107,9 +110,9 @@ const Content = () => {
       }
     }
 
-    // Call the fetchMediaFeed function
+    // Call the fetchMediaFeed function whenever reloadComponent changes
     fetchMediaFeed();
-  }, []); // Empty dependency array ensures the effect runs only once
+  }, [reloadComponent]); // Dependency array includes reloadComponent
 
   const handleDeleteMedia = async (mediaId) => {
     console.log(mediaId);
@@ -122,10 +125,11 @@ const Content = () => {
       );
 
       if (response.ok) {
-        // If deletion is successful, remove the media item from the state or re-fetch the media list
+        // If deletion is successful, update reloadComponent state to trigger component reload
+        setReloadComponent(!reloadComponent);
         const data = await response.json();
         console.log(data.message); // Log success message
-        window.location.reload();
+        notify();
       } else {
         console.error("Failed to delete media");
       }
@@ -133,6 +137,7 @@ const Content = () => {
       console.error("An error occurred while deleting media:", error);
     }
   };
+
 
   // Inside your rendering logic
 
@@ -157,7 +162,7 @@ const Content = () => {
 
   return (
     <section class="flex-1 ml-[19rem] mt-[8rem] rounded-xl bg-gray-200 flex flex-row items-start justify-start py-[2.375rem] px-[2.125rem] box-border gap-[0rem_1.375rem] min-h-[55.188rem] max-w-[calc(100%_-_300px)] text-left text-[2.375rem] text-white font-gilroy mq925:flex-wrap mq925:pt-[1.563rem] mq925:pb-[1.563rem] mq925:box-border mq925:max-w-full mq450:pt-[1.25rem] mq450:pb-[1.25rem] mq450:box-border">
-      {/* <div class="h-[55.188rem] w-[67.5rem] relative rounded-xl bg-gray-200 hidden max-w-full"></div> */}
+      <ToastContainer  className="text-[1rem]"/>
       <div class="w-full flex flex-col items-start justify-start pt-[0.438rem] px-[0rem] pb-[0rem] box-border min-w-[20.188rem] max-w-full mq925:flex-1">
         <div class="self-stretch flex flex-col items-start justify-start gap-[1.375rem_0rem] max-w-full">
           <div class="self-stretch flex flex-col items-start justify-start gap-[1.938rem_0rem] max-w-full mq450:gap-[1.938rem_0rem]">

@@ -40,19 +40,6 @@ const Navbar = () => {
         />
 
         <div class="flex flex-row items-center justify-start gap-[0rem_1.875rem]">
-          <img
-            class="h-[1.625rem] w-[1.5rem] relative z-[1]"
-            loading="lazy"
-            alt=""
-            src={group}
-          />
-
-          {/* <img
-                  class="h-[3.25rem] w-[3.25rem] relative rounded-[50%] object-cover z-[1]"
-                  loading="lazy"
-                  alt=""
-                  src={ellipse}
-                /> */}
 
           <div>
             <IconButton
