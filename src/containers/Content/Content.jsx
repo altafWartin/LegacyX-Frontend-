@@ -46,7 +46,7 @@ const Content = () => {
         throw new Error("Access token not found in local storage");
       }
       const response = await fetch(
-        "https://devv.legacyx.uk/api/delete-multiple-media",
+        "http://localhost:4400/api/delete-multiple-media",
         {
           method: "DELETE",
           headers: {
