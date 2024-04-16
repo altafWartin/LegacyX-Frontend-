@@ -107,11 +107,13 @@ const Notifications = () => {
         if (response.ok) {
           // Notification successfully sent
           console.log("Notification sent successfully");
-          notify()
-
+          notify();
+          // Clear input fields
+          setSelectedOption(""); // Assuming setSelectedOption is a state setter
+          setSelectedUsers([]); // Assuming setSelectedUsers is a state setter
+          setNotificationText(""); // Assuming setNotificationText is a state setter
         } else {
-          notif()
-
+          notif();
           // Notification failed
           console.error("Failed to send notification");
         }
@@ -123,11 +125,11 @@ const Notifications = () => {
       })
       .catch((error) => {
         // Handle error 
-        notif()
-
+        notif();
         console.error("Error:", error);
       });
-  };
+};
+
 
   return (
     <section class="flex-1 rounded-xl w-full ml-[19rem] mt-[8rem] bg-gray-200 flex flex-col items-start justify-start pt-[2.125rem] px-[2.125rem] pb-[24.625rem] box-border gap-[0.875rem_0rem] max-w-full text-left text-[1.125rem] text-white font-gilroy mq925:pt-[1.375rem] mq925:pb-[16rem] mq925:box-border mq925:max-w-full mq450:pt-[1.25rem] mq450:pb-[10.375rem] mq450:box-border">
