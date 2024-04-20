@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ellipse from "../../assets/ellipse-2@2x.png";
 import group42a from "../../assets/group-4@2x.png";
 import vector12 from "../../assets/vector-12.svg";
+import star from "../../assets/star.svg";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { Link, useNavigate } from "react-router-dom"; // Importing useNavigate hook
@@ -36,6 +37,14 @@ const User = () => {
 
   const notify = () => toast.success("User delete successfully!!!");
   const block = () => toast.success("User Blocked Successfully!!!");
+  const Subscribed = () => toast.success("User Subscribed Successfully!!!");
+  const handleOpen = (userId) => {
+    setOpen(true);
+    setUserId(userId); // Set the userId in state when opening the modal
+    console.log(userId);
+  };
+
+  const handleClose = () => setOpen(false);
 
 
   const fetchData = async () => {
@@ -67,13 +76,49 @@ const User = () => {
     }
   };
 
-  const handleOpen = (userId) => {
-    setOpen(true);
-    setUserId(userId); // Set the userId in state when opening the modal
-    console.log(userId);
-  };
+  useEffect(() => {
+    fetchData(); // Initial data fetch
+  }, [fetchData]);
 
-  const handleClose = () => setOpen(false);
+  const subscribUserProfile = async (userId) => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        throw new Error("Access token not found in local storage");
+      }
+      console.log("hello ",userId)
+
+      const response = await fetch(
+        "https://devv.legacyx.uk/api/auth/subscriptionByAdmin",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `${accessToken}`,
+          },
+          body: JSON.stringify({ userId }),
+        }
+      );
+
+      console.log(data,"data")
+
+      const data = await response.json();
+      if (response.ok) {
+        setMessage(data.message);
+        notify();
+        Subscribed(); 
+        setErrorMessage("");
+
+        fetchData(); // Fetch updated user list after deletion
+      } else {
+        setMessage("");
+        setErrorMessage(data.message || "An error occurred");
+      }
+    } catch (error) {
+      setMessage("");
+      setErrorMessage("Network error occurred");
+    }
+  };
 
   const deleteUserProfile = async (userId) => {
     try {
@@ -110,6 +155,8 @@ const User = () => {
       setErrorMessage("Network error occurred");
     }
   };
+
+ 
   const blockUserProfile = async (userId) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
@@ -143,9 +190,6 @@ const User = () => {
     }
   };
 
-  useEffect(() => {
-    fetchData(); // Initial data fetch
-  }, []);
 
   const fetchSingleProfile = async (userId) => {
     try {
@@ -199,6 +243,15 @@ const User = () => {
                   className="px-4 border-0"
                 >
                   Block
+                </button>{" "}
+                <button
+                  onClick={() => {
+                    subscribUserProfile(userId);
+                    handleClose(); // Close the modal after deleting
+                  }}
+                  className="px-4 border-0"
+                >
+                  Subscribe
                 </button>{" "}
                 <button
                   onClick={() => {
@@ -267,7 +320,15 @@ const User = () => {
                 </Stack>
 
                 <div className="h-[0.75rem]  relative leading-[1.125rem] capitalize flex items-center z-[2]">
-                  {profile.username}
+                  {profile.username}    {profile.isSubscribed && (
+                    <img
+                      className="ml-2 relative object-contain z-[2]"
+                      loading="lazy"
+                      alt=""
+                      src={star}
+                    />
+
+                  )}
                 </div>
               </div>
             </div>
