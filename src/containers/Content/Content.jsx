@@ -172,23 +172,23 @@ const Content = () => {
               </h1>{" "}
               <div class="flex-1 flex flex-col items-end justify-start gap-[1.438rem_0rem] min-w-[27.125rem] max-w-full text-[1.375rem] mq700:min-w-full">
                 <div class="flex flex-row items-start justify-start gap-[0rem_1.125rem] max-w-full text-[1.125rem] mq700:flex-wrap">
-                  <div class="rounded-3xs flex flex-row items-center justify-start py-[1.063rem] pr-[1.188rem] pl-[1.063rem] gap-[1.125rem] z-[1] border-[0.6px] border-solid border-white">
-                    <div class="h-[2.875rem] w-[12.438rem] relative rounded-3xs box-border hidden border-[0.6px] border-solid border-white"></div>
-                    <div class="flex flex-row items-start justify-start gap-[0rem_0.813rem]">
-                      <div class="relative leading-[0.75rem] capitalize z-[1]">
-                        sort by :
-                      </div>
-                      <div class="relative leading-[0.75rem] capitalize z-[1]">
-                        recent
-                      </div>
-                    </div>
-                    <img
-                      class="h-[0.25rem] w-[0.5rem] relative z-[1]"
-                      loading="lazy"
-                      alt=""
-                      src={vector12}
-                    />
-                  </div>
+                  {/* <div class="rounded-3xs flex flex-row items-center justify-start py-[1.063rem] pr-[1.188rem] pl-[1.063rem] gap-[1.125rem] z-[1] border-[0.6px] border-solid border-white"> */}
+                    {/* <div class="h-[2.875rem] w-[12.438rem] relative rounded-3xs box-border hidden border-[0.6px] border-solid border-white"></div> */}
+                    {/* <div class="flex flex-row items-start justify-start gap-[0rem_0.813rem]"> */}
+                      {/* <div class="relative leading-[0.75rem] capitalize z-[1]"> */}
+                        {/* sort by : */}
+                      {/* </div> */}
+                      {/* <div class="relative leading-[0.75rem] capitalize z-[1]"> */}
+                        {/* recent */}
+                      {/* </div> */}
+                    {/* </div> */}
+                    {/* <img */}
+                      {/* class="h-[0.25rem] w-[0.5rem] relative z-[1]" */}
+                      {/* loading="lazy" */}
+                      {/* alt="" */}
+                      {/* src={vector12} */}
+                    {/* /> */}
+                  {/* </div> */}
                   <button
                     onClick={() => deleteMultipleMedia()}
                     class="cursor-pointer [border:none] pt-[1rem] px-[2rem] pb-[0.938rem] bg-white rounded-3xs flex flex-row items-end justify-start gap-[0rem_0.5rem] z-[1] hover:bg-gainsboro-100"

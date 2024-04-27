@@ -37,9 +37,9 @@ const User = () => {
   const [profiles, setProfiles] = useState([]);
   const navigate = useNavigate(); // Initializing the useNavigate hook
 
-  const notify = () => toast.success("User delete successfully!!!");
-  const block = () => toast.success("User Blocked Successfully!!!");
-  const Subscribed = () => toast.success("User Subscribed Successfully!!!");
+
+  
+
 
   const handleOpen = (userId, isSubcribed, isBlocked) => {
     setOpen(true);
@@ -48,9 +48,8 @@ const User = () => {
     setIsSubcribed(isSubcribed);
     setIsBlocked(isBlocked);
   };
-  console.log(isBlocked, "block");
-  console.log(isSubcribed);
-  const handleClose = () => setOpen(false);
+
+
   const fetchData = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
@@ -80,7 +79,7 @@ const User = () => {
     }
   };
 
-  console.log(apiCallMade);
+console.log(message,"message"); // Log the length of the
 
   useEffect(() => {
     fetchData(); // Fetch data only if an API call has been made
@@ -108,22 +107,27 @@ const User = () => {
         }
       );
 
-      console.log(data, "data");
+      console.log("Response status:", response.status); // Log response status
 
       const data = await response.json();
+      console.log("Response data:", data); // Log response data
+
       if (response.ok) {
         setMessage(data.message);
-        notify();
-        Subscribed();
+
+
+   
         setErrorMessage("");
-        setApiCallMade(true); // Update state after API call
 
         fetchData(); // Fetch updated user list after deletion
+        setApiCallMade(true); // Update state after API call
+        handleClose();
       } else {
         setMessage("");
         setErrorMessage(data.message || "An error occurred");
       }
     } catch (error) {
+      console.error("Error in subscribUserProfile:", error);
       setMessage("");
       setErrorMessage("Network error occurred");
     }
@@ -151,11 +155,13 @@ const User = () => {
       const data = await response.json();
       if (response.ok) {
         setMessage(data.message);
-        notify();
+ 
+ 
         setErrorMessage("");
         setApiCallMade(true); // Update state after API call
 
         fetchData(); // Fetch updated user list after deletion
+        handleClose();
       } else {
         setMessage("");
         setErrorMessage(data.message || "An error occurred");
@@ -174,7 +180,7 @@ const User = () => {
       }
 
       const response = await fetch(
-        "https://devv.legacyx.uk/api/auth/blockUser",
+        "https://devv.legacyx.uk/api/auth/blockOrUnblock",
         {
           method: "POST",
           headers: {
@@ -187,12 +193,15 @@ const User = () => {
 
       const data = await response.json();
       if (response.ok) {
+
         setMessage(data.message);
-        block();
+ 
+     
         setErrorMessage("");
         setApiCallMade(true); // Update state after API call
 
         fetchData(); // Fetch updated user list after deletion
+        handleClose();
       } else {
         setMessage("");
         setErrorMessage(data.message || "An error occurred");
@@ -231,8 +240,25 @@ const User = () => {
     }
   };
 
+ 
+  const handleClose = () => {
+    setOpen(false);
+  
+  
+  } 
+
+  useEffect(() => {
+    if (message) {
+      notify();
+    }
+  }, [message]);
+
+  const notify = () => toast.success(message);
+
+  console.log(message, 'messsssss');
+
   return (
-    <div class="flex-1 h-[100vh] rounded-xl  ml-[19rem] mt-[8rem] text-white bg-gray-200  flex flex-col items-center justify-start pt-[2.375rem] px-[2.125rem] pb-[5.125rem] box-border gap-[1.375rem_0rem] max-w-[calc(100%_-_300px)] mq900:pt-[1.563rem] mq900:pb-[3.313rem] mq900:box-border mq900:max-w-full mq450:pt-[1.25rem] mq450:pb-[2.125rem] mq450:box-border">
+    <div class="flex-1 h-[100vh] rounded-xl  ml-[19rem] mt-[8rem] text-white bg-gray-200  flex flex-col items-center justify-start  px-[2.125rem] pb-[5.125rem] box-border gap-[1.375rem_0rem] max-w-[calc(100%_-_300px)] mq900:pt-[1.563rem] mq900:pb-[3.313rem] mq900:box-border mq900:max-w-full mq450:pt-[1.25rem] mq450:pb-[2.125rem] mq450:box-border">
       <ToastContainer className="text-[1rem]" />
 
       <div>
@@ -308,22 +334,22 @@ const User = () => {
               </div>
             </div>
           </div>
-          <div class="rounded-3xs flex flex-row items-center justify-start py-[1.063rem] pr-[1.188rem] pl-[1.063rem] gap-[1.125rem] z-[1] text-[1.125rem] border-[0.6px] border-solid border-white">
-            <div class="flex flex-row items-start justify-start gap-[0rem_0.813rem]">
-              <div class="relative leading-[0.75rem] capitalize z-[1]">
-                sort by :
-              </div>
-              <div class="relative leading-[0.75rem] capitalize z-[1]">
-                recent
-              </div>
-            </div>
-            <img
-              class="h-[0.25rem] w-[0.5rem] color-white relative z-[1]"
-              loading="lazy"
-              alt=""
-              src={vector12}
-            />
-          </div>{" "}
+          {/* <div class="rounded-3xs flex flex-row items-center justify-start py-[1.063rem] pr-[1.188rem] pl-[1.063rem] gap-[1.125rem] z-[1] text-[1.125rem] border-[0.6px] border-solid border-white"> */}
+            {/* <div class="flex flex-row items-start justify-start gap-[0rem_0.813rem]"> */}
+              {/* <div class="relative leading-[0.75rem] capitalize z-[1]"> */}
+                {/* sort by : */}
+              {/* </div> */}
+              {/* <div class="relative leading-[0.75rem] capitalize z-[1]"> */}
+                {/* recent */}
+              {/* </div> */}
+            {/* </div> */}
+            {/* <img */}
+              {/* class="h-[0.25rem] w-[0.5rem] color-white relative z-[1]" */}
+              {/* loading="lazy" */}
+              {/* alt="" */}
+              {/* src={vector12} */}
+            {/* /> */}
+          {/* </div>{" "} */}
         </div>
       </div>
       <div className="h-[500px] w-full overflow-y-auto ">
@@ -348,15 +374,15 @@ const User = () => {
                 <div className="h-[0.75rem]  relative leading-[1.125rem] capitalize flex items-center z-[2]">
                   {profile.username}{" "}
                   {profile.isSubscribed && (
-               
-                <div>
-     <img
-                      className="ml-3 relative object-contain z-[2]"
-                      loading="lazy"
-                      alt=""
-                      src={star}
-                    /> (Prime member)
-                </div>
+                    <div>
+                      <img
+                        className="ml-3 relative object-contain z-[2]"
+                        loading="lazy"
+                        alt=""
+                        src={star}
+                      />{" "}
+                      (Prime member)
+                    </div>
                   )}
                 </div>
               </div>
