@@ -31,22 +31,26 @@ const User = () => {
   const [userId, setUserId] = useState("");
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [isSubcribed, setIsSubcribed] = useState("");
+  const [isBlocked, setIsBlocked] = useState("");
+  const [apiCallMade, setApiCallMade] = useState(false);
   const [profiles, setProfiles] = useState([]);
   const navigate = useNavigate(); // Initializing the useNavigate hook
 
   const notify = () => toast.success("User delete successfully!!!");
   const block = () => toast.success("User Blocked Successfully!!!");
   const Subscribed = () => toast.success("User Subscribed Successfully!!!");
-  const handleOpen = (userId) => {
+
+  const handleOpen = (userId, isSubcribed, isBlocked) => {
     setOpen(true);
     setUserId(userId); // Set the userId in state when opening the modal
-    console.log(userId);
+    console.log(userId, "userid");
+    setIsSubcribed(isSubcribed);
+    setIsBlocked(isBlocked);
   };
-
+  console.log(isBlocked, "block");
+  console.log(isSubcribed);
   const handleClose = () => setOpen(false);
-
-
   const fetchData = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
@@ -76,17 +80,21 @@ const User = () => {
     }
   };
 
-  useEffect(() => {
-    fetchData(); // Initial data fetch
-  }, [fetchData]);
+  console.log(apiCallMade);
 
-  const subscribUserProfile = async (userId) => {
+  useEffect(() => {
+    fetchData(); // Fetch data only if an API call has been made
+    setApiCallMade(false); // Reset the state variable
+  }, [apiCallMade]);
+
+  const subscribUserProfile = async (userId, action) => {
+    console.log("this is ", userId, action);
     try {
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
         throw new Error("Access token not found in local storage");
       }
-      console.log("hello ",userId)
+      console.log("hello ", userId);
 
       const response = await fetch(
         "https://devv.legacyx.uk/api/auth/subscriptionByAdmin",
@@ -96,18 +104,19 @@ const User = () => {
             "Content-Type": "application/json",
             authorization: `${accessToken}`,
           },
-          body: JSON.stringify({ userId }),
+          body: JSON.stringify({ userId, action }),
         }
       );
 
-      console.log(data,"data")
+      console.log(data, "data");
 
       const data = await response.json();
       if (response.ok) {
         setMessage(data.message);
         notify();
-        Subscribed(); 
+        Subscribed();
         setErrorMessage("");
+        setApiCallMade(true); // Update state after API call
 
         fetchData(); // Fetch updated user list after deletion
       } else {
@@ -144,6 +153,7 @@ const User = () => {
         setMessage(data.message);
         notify();
         setErrorMessage("");
+        setApiCallMade(true); // Update state after API call
 
         fetchData(); // Fetch updated user list after deletion
       } else {
@@ -156,28 +166,31 @@ const User = () => {
     }
   };
 
- 
-  const blockUserProfile = async (userId) => {
+  const blockOrUnblock = async (userId, action) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
         throw new Error("Access token not found in local storage");
       }
 
-      const response = await fetch("https://devv.legacyx.uk/api/auth/blockUser", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `${accessToken}`,
-        },
-        body: JSON.stringify({ userId }),
-      });
+      const response = await fetch(
+        "https://devv.legacyx.uk/api/auth/blockUser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `${accessToken}`,
+          },
+          body: JSON.stringify({ userId, action }),
+        }
+      );
 
       const data = await response.json();
       if (response.ok) {
         setMessage(data.message);
         block();
         setErrorMessage("");
+        setApiCallMade(true); // Update state after API call
 
         fetchData(); // Fetch updated user list after deletion
       } else {
@@ -189,7 +202,6 @@ const User = () => {
       setErrorMessage("Network error occurred");
     }
   };
-
 
   const fetchSingleProfile = async (userId) => {
     try {
@@ -210,6 +222,7 @@ const User = () => {
 
       const data = await response.json();
       navigate(`/userProfile/${userId}`, { state: { profile: data } });
+      setApiCallMade(true); // Update state after API call
 
       console.log("Single Profile:", data);
       // Handle the fetched single profile data as needed
@@ -235,24 +248,37 @@ const User = () => {
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               <div className="d-flex justify-end gap-3">
-                <button
-                  onClick={() => {
-                    blockUserProfile(userId);
-                    handleClose(); // Close the modal after deleting
-                  }}
-                  className="px-4 border-0"
-                >
-                  Block
-                </button>{" "}
-                <button
-                  onClick={() => {
-                    subscribUserProfile(userId);
-                    handleClose(); // Close the modal after deleting
-                  }}
-                  className="px-4 border-0"
-                >
-                  Subscribe
-                </button>{" "}
+                {isBlocked ? (
+                  <button
+                    onClick={() => blockOrUnblock(userId, "unblock")}
+                    className="px-4 border-0"
+                  >
+                    Unblock
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => blockOrUnblock(userId, "block")}
+                    className="px-4 border-0"
+                  >
+                    Block
+                  </button>
+                )}
+
+                {isSubcribed ? (
+                  <button
+                    onClick={() => subscribUserProfile(userId, "true")}
+                    className="px-4 border-0"
+                  >
+                    Unsubscribe
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => subscribUserProfile(userId, "false")}
+                    className="px-4 border-0"
+                  >
+                    Subscribe
+                  </button>
+                )}
                 <button
                   onClick={() => {
                     deleteUserProfile(userId);
@@ -320,14 +346,17 @@ const User = () => {
                 </Stack>
 
                 <div className="h-[0.75rem]  relative leading-[1.125rem] capitalize flex items-center z-[2]">
-                  {profile.username}    {profile.isSubscribed && (
-                    <img
-                      className="ml-2 relative object-contain z-[2]"
+                  {profile.username}{" "}
+                  {profile.isSubscribed && (
+               
+                <div>
+     <img
+                      className="ml-3 relative object-contain z-[2]"
                       loading="lazy"
                       alt=""
                       src={star}
-                    />
-
+                    /> (Prime member)
+                </div>
                   )}
                 </div>
               </div>
@@ -338,7 +367,15 @@ const User = () => {
                   {profile.email}
                 </div>
               </div>
-              <div onClick={() => handleOpen(profile._id)}>
+              <div
+                onClick={() =>
+                  handleOpen(
+                    profile._id,
+                    profile.isSubscribed,
+                    profile.isBlocked
+                  )
+                }
+              >
                 <img
                   className="h-[1.625rem] w-[0.375rem] relative object-contain z-[2]"
                   loading="lazy"
