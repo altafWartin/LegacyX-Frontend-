@@ -19,7 +19,7 @@ const style = {
   left: "50%",
   radios: "10px",
   transform: "translate(-50%, -50%)",
-  width: 430,
+  width: 470,
   bgcolor: "gray",
   border: "2px solid #000",
   boxShadow: 24,
