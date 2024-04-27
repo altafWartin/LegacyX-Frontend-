@@ -88,7 +88,7 @@ const Notifications = () => {
       throw new Error("Access token not found in local storage");
     }
     // Perform API call here
-    fetch("https://0gz089h3-4400.inc1.devtunnels.ms/api/auth/send-notification", {
+    fetch("https://devv.legacyx.uk/api/auth/send-notification", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
