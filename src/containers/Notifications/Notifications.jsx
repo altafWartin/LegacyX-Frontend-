@@ -13,12 +13,13 @@ const Notifications = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [notificationText, setNotificationText] = useState("");
+  const [notificationTitle, setNotificationTitle] = useState("");
 
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedUsersValue, setSelectedUsersValue] = useState([]);
 
   console.log(selectedUsers, "selectedUsers");
-
+  console.log(notificationTitle, "notificationTitle");
 
   const notify = () => toast.success("Notification sent successfully!!!");
   const notif = () => toast.error("Error ");
@@ -59,30 +60,24 @@ const Notifications = () => {
     fetchUsers();
   }, []);
 
-  const [selectedOption, setSelectedOption] = useState("");
-
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-    // You can perform any action here based on the selected option
-    // For example, you might want to trigger a function to filter notifications
-  };
 
   // calll notification api
 
+  const handleNotificationTitle = (event) => {
+    const capitalizedValue = event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1);
+    setNotificationTitle(capitalizedValue);
+  };
+
   const handleNotificationTextChange = (event) => {
-    setNotificationText(event.target.value);
+    const capitalizedValue = event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1);
+    setNotificationText(capitalizedValue);
   };
 
   const handleNotificationSubmit = (event) => {
     event.preventDefault();
     console.log("Submitting notification...");
 
-    console.log("Notification data:", {
-      notificationType: selectedOption,
-      userIds: selectedUsers.map((user) => user.value),
-      notificationText: notificationText,
-    });
-    
+
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) {
       throw new Error("Access token not found in local storage");
@@ -97,7 +92,7 @@ const Notifications = () => {
         // Add any other headers required by your API
       },
       body: JSON.stringify({
-        notificationType: selectedOption,
+        notificationType: notificationTitle,
         userIds: selectedUsers.map((user) => user.value),
         notificationText: notificationText,
       }),
@@ -109,7 +104,7 @@ const Notifications = () => {
           console.log("Notification sent successfully");
           notify();
           // Clear input fields
-          setSelectedOption(""); // Assuming setSelectedOption is a state setter
+          setNotificationTitle(""); // Assuming setSelectedOption is a state setter
           setSelectedUsers([]); // Assuming setSelectedUsers is a state setter
           setNotificationText(""); // Assuming setNotificationText is a state setter
         } else {
@@ -124,17 +119,16 @@ const Notifications = () => {
         // window.location.reload(false);
       })
       .catch((error) => {
-        // Handle error 
+        // Handle error
         notif();
         console.error("Error:", error);
       });
-};
-
+  };
 
   return (
     <section class="flex-1 rounded-xl w-full ml-[19rem] mt-[8rem] bg-gray-200 flex flex-col items-start justify-start pt-[2.125rem] px-[2.125rem] pb-[24.625rem] box-border gap-[0.875rem_0rem] max-w-full text-left text-[1.125rem] text-white font-gilroy mq925:pt-[1.375rem] mq925:pb-[16rem] mq925:box-border mq925:max-w-full mq450:pt-[1.25rem] mq450:pb-[10.375rem] mq450:box-border">
-    <ToastContainer  className="text-[1rem]"/>
-    <div class="flex-1 flex flex-col w-full items-end justify-start  min-w-[27.125rem] max-w-full text-[1.375rem] mq700:min-w-full">
+      <ToastContainer className="text-[1rem]" />
+      <div class="flex-1 flex flex-col w-full items-end justify-start  min-w-[27.125rem] max-w-full text-[1.375rem] mq700:min-w-full">
         <div class="flex  items-start  w-full justify-between  max-w-full text-[1.125rem] mq700:flex-wrap">
           <h1 class="m-0  relative text-inherit leading-[2.375rem] text-[40px] capitalize font-semibold font-inherit inline-block shrink-0 z-[1]  ">
             Notification
@@ -146,20 +140,13 @@ const Notifications = () => {
         <div class="flex-1 flex flex-col items-start justify-start gap-[1.5rem_0rem] min-w-[20.063rem] max-w-full">
           <div class="self-stretch flex flex-col items-start justify-start gap-[0.875rem_0rem]">
             <div class="h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center shrink-0 z-[1]">
-              Notification Type's
+              Notification Title
             </div>
-            <select
+            <input
+              type="text" value={notificationTitle} onChange={handleNotificationTitle}
               className="w-full [border:none] [outline:none] flex justify-between placeholder:text-black  self-stretch h-[3.375rem] px-3 rounded-3xs flex flex-row items-start justify-start py-[1rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
-              id="notificationType"
-              value={selectedOption}
-              onChange={handleOptionChange}
-            >
-              <option value="">Select</option>
-              <option value="Informative">Informative</option>
-              <option value="Reminder">Reminder</option>
-              <option value="Offer">Offer</option>
-              {/* Add more options as needed */}
-            </select>
+            />
+
           </div>
         </div>
         <div class="w-full flex-1 flex flex-col items-start justify-start gap-[1.5rem_0rem] min-w-[20.063rem] max-w-full">
@@ -167,11 +154,7 @@ const Notifications = () => {
             <div class=" w-full h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center shrink-0 z-[1]">
               Select User's
             </div>
-            {/* <input
-              class="w-full [border:none] [outline:none] placeholder:text-black bg-gray-500 self-stretch h-[3.375rem] rounded-3xs flex flex-row items-start justify-start py-[1.313rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
-              placeholder="Select Users"
-              type="text"
-            /> */}
+       
             <Select
               closeMenuOnSelect={false}
               components={animatedComponents}

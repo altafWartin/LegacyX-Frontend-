@@ -27,7 +27,7 @@ const Login = () => {
           body: JSON.stringify({ email, password }),
         }
       );
-
+      console.log(JSON.stringify({ email, password }));
       if (!response.ok) {
         throw new Error("Invalid email or password");
       }
