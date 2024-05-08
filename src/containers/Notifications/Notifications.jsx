@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import vector12 from "../../assets/vector-12.svg";
 import group51 from "../../assets/group-5-1.svg";
 import Select from "react-select";
+import MultiSelect from "./MultiSelect";
 
 import makeAnimated from "react-select/animated";
 
@@ -12,24 +13,70 @@ const animatedComponents = makeAnimated();
 const Notifications = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [users, setUsers] = useState([]);
+  const [allUsers, setAllUsers] = useState(null);
+  // const newAllUsers = allUsers
   const [notificationText, setNotificationText] = useState("");
   const [notificationTitle, setNotificationTitle] = useState("");
+  // const [options, setOptions] = useState([]);
 
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedUserIds, setSelectedUserIds] = useState([]);
   const [selectedUsersValue, setSelectedUsersValue] = useState([]);
+  // const [optionSelected, setOptionSelected] = useState([]);
 
-  console.log(selectedUsers, "selectedUsers");
-  console.log(notificationTitle, "notificationTitle");
 
   const notify = () => toast.success("Notification sent successfully!!!");
   const notif = () => toast.error("Error ");
-  const handleSelectChange = (selectedOptions) => {
-    setSelectedUsers(selectedOptions);
-    const selectedValues = selectedOptions.map((option) => option.value);
-    setSelectedUsersValue(selectedValues);
-  };
 
-  console.log(selectedUsersValue);
+  const options =
+     users;
+    // [
+    //   { value: "zero", label: "Goranboy" },
+    //   { value: "one", label: "Safikurd" },
+    //   { value: "two", label: "Baku" },
+    //   { value: "three", label: "Ganja" },
+    //   { value: "four", label: "Shusha" },
+    //   { value: "five", label: "Agdam" },
+    // ];
+  console.log("users", users);
+  console.log("options", options);
+
+  const [optionSelected, setSelected] = useState(null);
+
+  const handleSelectChange = (selectedOptions) => {
+    console.log("arrssrrss", selectedOptions);
+    const selectedValues = selectedOptions.map((option) => option.value); // Declare selectedValues here
+
+    // if (selectedOptions.length > 0) {
+    //   let label = selectedOptions[0].label;
+    //   console.log(label); // Output: "Select All"
+
+    //   if (label === "Select All") {
+    //     console.log("Selected all labels:", label);
+
+    //     setSelectedUserIds(allUsers);
+    //     // Add code here to perform any additional actions for selecting all labels
+    //   } else {
+    //     console.log("Selected label:", label);
+
+    //     setSelectedUsersValue(selectedValues);
+    //     setSelectedUsers(selectedOptions);
+    //     setSelectedUserIds(selectedValues); // Use selectedValues here
+
+    //     console.log(selectedOptions, "selected");
+    //     // Add code here to handle selecting individual labels
+    //   }
+    // } else {
+    //   console.log("Array is empty or does not contain expected data.");
+    // }
+    // console.log("Selected label:", label);
+
+    setSelectedUsersValue(selectedValues);
+    setSelectedUsers(selectedOptions);
+    setSelectedUserIds(selectedValues); // Use selectedValues here
+
+    console.log(selectedOptions, "selected");
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -42,34 +89,43 @@ const Notifications = () => {
         }
         const data = await response.json(); // Parse JSON response
 
-        console.log(data);
         // Extracting user name and user id
         const usersWithRequiredFields = data.map((user) => ({
           value: user._id,
           label: user.username,
         }));
+        console.log("usersWithRequiredFields", usersWithRequiredFields);
+
+        // setOptions(usersWithRequiredFields);
 
         setUsers(usersWithRequiredFields); // Set users state with the extracted fields
-        console.log(usersWithRequiredFields);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
 
-    console.log(users, "hello ");
     fetchUsers();
   }, []);
 
+  const handleChange = (selected) => {
+    setSelected(selected);
+    console.log("selected", selected);
+    const selectedValues = selected.map(option => option.value);
+    console.log("selectedValuesssssss", selectedValues);
+    setSelectedUserIds(selectedValues)
+  };
 
   // calll notification api
 
   const handleNotificationTitle = (event) => {
-    const capitalizedValue = event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1);
+    const capitalizedValue =
+      event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1);
     setNotificationTitle(capitalizedValue);
   };
 
   const handleNotificationTextChange = (event) => {
-    const capitalizedValue = event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1);
+    const capitalizedValue =
+      event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1);
     setNotificationText(capitalizedValue);
   };
 
@@ -77,6 +133,12 @@ const Notifications = () => {
     event.preventDefault();
     console.log("Submitting notification...");
 
+    // Log the data being sent in the API request body
+    console.log("API Request Body:", {
+      notificationType: notificationTitle,
+      userIds: selectedUserIds,
+      notificationText: notificationText,
+    });
 
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) {
@@ -93,7 +155,7 @@ const Notifications = () => {
       },
       body: JSON.stringify({
         notificationType: notificationTitle,
-        userIds: selectedUsers.map((user) => user.value),
+        userIds: selectedUserIds,
         notificationText: notificationText,
       }),
     })
@@ -106,6 +168,7 @@ const Notifications = () => {
           // Clear input fields
           setNotificationTitle(""); // Assuming setSelectedOption is a state setter
           setSelectedUsers([]); // Assuming setSelectedUsers is a state setter
+          setSelected([]);
           setNotificationText(""); // Assuming setNotificationText is a state setter
         } else {
           notif();
@@ -143,10 +206,12 @@ const Notifications = () => {
               Notification Title
             </div>
             <input
-              type="text" value={notificationTitle} onChange={handleNotificationTitle}
+              type="text"
+              placeholder="Notification Title"
+              value={notificationTitle}
+              onChange={handleNotificationTitle}
               className="w-full [border:none] [outline:none] flex justify-between placeholder:text-black  self-stretch h-[3.375rem] px-3 rounded-3xs flex flex-row items-start justify-start py-[1rem] px-[1.125rem] box-border font-gilroy font-light text-[1.125rem] text-gray-400 min-w-[15.625rem] z-[1]"
             />
-
           </div>
         </div>
         <div class="w-full flex-1 flex flex-col items-start justify-start gap-[1.5rem_0rem] min-w-[20.063rem] max-w-full">
@@ -154,86 +219,16 @@ const Notifications = () => {
             <div class=" w-full h-[0.75rem] relative leading-[1.125rem] capitalize flex items-center shrink-0 z-[1]">
               Select User's
             </div>
-       
-            <Select
-              closeMenuOnSelect={false}
-              components={animatedComponents}
-              onChange={handleSelectChange}
-              value={selectedUsers}
-              isMulti={true}
-              options={users}
-              styles={{
-                container: (provided) => ({
-                  ...provided,
-                  cursor: "pointer",
-                }),
-                control: (provided) => ({
-                  ...provided,
-                  width: "400px",
-                  border: "none",
-                  outline: "none",
-                  backgroundColor: "white",
-                  minHeight: "3.375rem",
-                  maxHeight: "3.375rem",
-                  borderRadius: "0.55rem",
-                  overflow: "hidden",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "0.5rem 1rem",
-                  fontFamily: "gilroy",
-                  fontSize: "1.125rem",
-                  color: "black",
-                }),
-                placeholder: (provided) => ({
-                  ...provided,
-                  color: "black",
-                }),
-                multiValue: (provided) => ({
-                  ...provided,
-                  backgroundColor: "#4B5563",
-                  color: "#F9FAFB",
-                  borderRadius: "0.25rem",
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "0.25rem 0.5rem",
-                }),
-                option: (provided, state) => ({
-                  ...provided,
-                  backgroundColor: "white", // Set background to transparent
-                  color: state.isSelected ? "#F9FAFB" : "#9CA3AF", // Set text color based on selection
-                  cursor: "pointer !important",
-                  zIndex: 100,
-                }),
-                multiValueLabel: (provided) => ({
-                  ...provided,
-                  color: "#F9FAFB",
-                }),
-                multiValueRemove: (provided) => ({
-                  ...provided,
-                  cursor: "pointer",
-                  color: "white",
-                  ":hover": {
-                    backgroundColor: "white",
-                    color: "#black",
-                  },
-                }),
-                menu: (provided) => ({
-                  ...provided,
-                  backgroundColor: "rgba(255, 255, 255, 0.4)",
-                  cursor: "pointer",
-                  maxHeight: "200px", // Adjust the maximum height as needed
-                  overflowY: "auto", // Enable vertical scrolling
-                }),
-                menuList: (provided) => ({
-                  ...provided,
-                  backgroundColor: "rgba(255, 255, 255, 0.4)",
-                  cursor: "pointer",
-                  maxHeight: "200px", // Adjust the maximum height as needed
-                  overflowY: "auto", // Enable vertical scrolling
-                }),
-              }}
+            <MultiSelect
+           className="w-full  h-[0.75rem]"
+              key="example_id"
+              options={options}
+              onChange={handleChange}
+              value={optionSelected}
+              isSelectAll={true}
+              menuPlacement={"bottom"}
             />
+          
           </div>
         </div>
       </div>
