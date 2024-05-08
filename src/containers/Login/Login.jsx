@@ -18,7 +18,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:4400/api/auth/loginAdmin`,
+        `https://devv.legacyx.uk/api/auth/loginAdmin`,
         {
           method: "POST",
           headers: {
